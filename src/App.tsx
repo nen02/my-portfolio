@@ -1,5 +1,12 @@
+import { Header, Hero } from "./components";
+
 function App() {
-  return <h1>My Portfolio</h1>;
+  return (
+    <div className="content">
+      <Header />
+      <Hero />
+    </div>
+  );
 }
 
 export default App;
