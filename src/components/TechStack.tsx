@@ -74,16 +74,16 @@ const techStack: tech[] = [
 
 function TechStack() {
   return (
-    <section className="container max-w-screen-md mx-auto py-16">
+    <section className="container max-w-screen-lg mx-auto py-16 max-lg:px-10">
       <div className="flex items-center gap-x-4">
-        <div className="w-10 h-1 bg-[#3d3d3d]"></div>
+        <div className="w-10 h-[2px] bg-[#3d3d3d]"></div>
         <h2 className="text-2xl font-bold block">Tech Stack</h2>
-        <div className="flex-1 h-1 bg-[#3d3d3d]"></div>
+        <div className="flex-1 h-[2px] bg-[#3d3d3d]"></div>
       </div>
       <p className=" mb-12">
         I use a unified tech stack for development and deployment.
       </p>
-      <div className="flex flex-wrap gap-20 justify-center">
+      <div className="flex flex-wrap gap-x-28 gap-y-16 justify-center max-lg:gap-x-20 max-lg:gap-y-10">
         {techStack.map((tech) => (
           <div key={tech.key}>
             <FontAwesomeIcon icon={tech.icon} size="3x" />

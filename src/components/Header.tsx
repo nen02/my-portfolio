@@ -46,7 +46,7 @@ const links: LinkProps[] = [
 function Header() {
   return (
     <div className="bg-[#F6F5F4]">
-      <div className="container max-w-screen-md mx-auto flex justify-end h-14 items-center gap-x-6 ">
+      <div className="container max-w-screen-lg mx-auto flex justify-end h-10 items-center gap-x-5 max-md:px-2">
         {links.map((link) => (
           <Link
             key={link.key}

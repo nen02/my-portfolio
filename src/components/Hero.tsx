@@ -7,7 +7,7 @@ function Hero() {
       id="hero-section"
       className="bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-slate-300"
     >
-      <div className="max-w-screen-md container mx-auto py-16 px-5">
+      <div className="max-w-screen-lg container mx-auto py-16 px-5 max-sm:py-12">
         <img
           src="/images/profile.png"
           alt="profile"
