@@ -5,7 +5,7 @@ function Hero() {
   return (
     <section
       id="hero-section"
-      className="bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-slate-300"
+      className="bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-gray-300"
     >
       <div className="max-w-screen-lg container mx-auto py-16 px-5 max-sm:py-12">
         <img

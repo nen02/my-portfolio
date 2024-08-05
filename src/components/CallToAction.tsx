@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CallToAction() {
   return (
-    <section className="bg-[#F6F5F4] rounded-t-[120px] border-solid border-t-[1px] border-t-slate-300">
-      <div className="max-w-screen-lg container mx-auto py-16 px-5 max-sm:py-12">
+    <section className="bg-[#F6F5F4] rounded-t-[120px] border-solid border-t-[1px] border-t-gray-300">
+      <div className="max-w-screen-lg container mx-auto py-10 px-5 max-sm:py-12">
         <div
           className="h-32 w-32 border-4 rounded-full flex justify-center items-center mx-auto mb-7"
           style={{ borderColor: "#3d3d3d" }}

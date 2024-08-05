@@ -1,4 +1,11 @@
-import { CallToAction, Header, Hero, Services, TechStack } from "./components";
+import {
+  CallToAction,
+  Footer,
+  Header,
+  Hero,
+  Services,
+  TechStack,
+} from "./components";
 
 function App() {
   return (
@@ -8,6 +15,7 @@ function App() {
       <TechStack />
       <Services />
       <CallToAction />
+      <Footer />
     </div>
   );
 }
