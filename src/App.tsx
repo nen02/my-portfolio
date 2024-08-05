@@ -1,4 +1,4 @@
-import { Header, Hero, Services, TechStack } from "./components";
+import { CallToAction, Header, Hero, Services, TechStack } from "./components";
 
 function App() {
   return (
@@ -7,6 +7,7 @@ function App() {
       <Hero />
       <TechStack />
       <Services />
+      <CallToAction />
     </div>
   );
 }
