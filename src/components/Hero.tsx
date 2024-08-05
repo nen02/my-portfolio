@@ -26,7 +26,7 @@ function Hero() {
               <FontAwesomeIcon
                 beat
                 icon={faPaperPlane}
-                size="lg"
+                // size="lg"
                 className="mr-3 "
               />
               Email Me
