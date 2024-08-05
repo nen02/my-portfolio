@@ -1,10 +1,12 @@
-import { Header, Hero } from "./components";
+import { Header, Hero, Services, TechStack } from "./components";
 
 function App() {
   return (
     <div className="content">
       <Header />
       <Hero />
+      <TechStack />
+      <Services />
     </div>
   );
 }

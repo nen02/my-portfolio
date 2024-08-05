@@ -11,7 +11,7 @@ function Hero() {
         <img
           src="/images/profile.png"
           alt="profile"
-          className="rounded-full h-52 mx-auto mb-7"
+          className="rounded-full h-44 mx-auto mb-7"
         />
         <h1 className="text-3xl text-center md:max-w-lg px-5 mx-auto font-bold mb-8">
           Bringing Ideas to Life: Crafting Innovative Solutions.
