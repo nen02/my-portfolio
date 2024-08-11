@@ -9,9 +9,9 @@ import {
   faSass,
   faVuejs,
   IconDefinition,
-} from "@fortawesome/free-brands-svg-icons";
-import { faDatabase } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-brands-svg-icons';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type tech = {
   key: string;
@@ -22,72 +22,72 @@ type tech = {
 const techStack: tech[] = [
   {
     icon: faReact,
-    key: "react",
-    name: "React",
+    key: 'react',
+    name: 'React',
   },
   {
     icon: faVuejs,
-    key: "vue",
-    name: "Vue.js",
+    key: 'vue',
+    name: 'Vue.js',
   },
   {
     icon: faNodeJs,
-    key: "nodejs",
-    name: "Node.js",
+    key: 'nodejs',
+    name: 'Node.js',
   },
   {
     icon: faLaravel,
-    key: "laravel",
-    name: "Laravel",
+    key: 'laravel',
+    name: 'Laravel',
   },
   {
     icon: faDocker,
-    key: "docker",
-    name: "Docker",
+    key: 'docker',
+    name: 'Docker',
   },
   {
     icon: faFigma,
-    key: "figma",
-    name: "Figma",
+    key: 'figma',
+    name: 'Figma',
   },
   {
     icon: faPython,
-    key: "python",
-    name: "Python",
+    key: 'python',
+    name: 'Python',
   },
   {
     icon: faSass,
-    key: "sass",
-    name: "Sass",
+    key: 'sass',
+    name: 'Sass',
   },
   {
     icon: faGit,
-    key: "git",
-    name: "Git",
+    key: 'git',
+    name: 'Git',
   },
   {
     icon: faDatabase,
-    key: "sql",
-    name: "Sql",
+    key: 'sql',
+    name: 'Sql',
   },
 ];
 
 function TechStack() {
   return (
-    <section className="container max-w-screen-lg mx-auto py-16 max-lg:px-10">
-      <div className="flex items-center gap-x-4">
-        <div className="w-10 h-[2px] bg-[#3d3d3d]"></div>
-        <h2 className="text-2xl font-bold block">Tech Stack</h2>
-        <div className="flex-1 h-[2px] bg-[#3d3d3d]"></div>
+    <section className='container max-w-screen-lg mx-auto py-16 max-lg:px-10'>
+      <div className='flex items-center gap-x-4'>
+        <div className='w-6 h-[2px] bg-[#3d3d3d]'></div>
+        <h2 className='text-2xl font-bold block'>Tech Stack</h2>
+        <div className='flex-1 h-[2px] bg-[#3d3d3d]'></div>
       </div>
-      <p className=" mb-12">
+      <p className=' mb-12'>
         I use a unified tech stack for development and deployment.
       </p>
-      <div className="flex flex-wrap gap-x-28 gap-y-16 justify-center max-lg:gap-x-20 max-lg:gap-y-10">
+      <div className='flex flex-wrap gap-x-28 gap-y-16 justify-center max-lg:gap-x-20 max-lg:gap-y-10'>
         {techStack.map((tech) => (
           <div key={tech.key}>
-            <FontAwesomeIcon icon={tech.icon} size="3x" />
-            <p className="text-center mt-2 text-lg">{tech.name}</p>
+            <FontAwesomeIcon icon={tech.icon} size='3x' />
+            <p className='text-center mt-2 text-lg'>{tech.name}</p>
           </div>
         ))}
       </div>
