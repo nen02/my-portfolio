@@ -1,40 +1,52 @@
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HeroParticles from './HeroParticles';
+import Header from './Header';
+
+function Content() {
+  return (
+    <div className='max-w-screen-lg container mx-auto py-16 px-5 max-sm:py-12'>
+      <img
+        src='/images/profile.png'
+        alt='profile'
+        className='rounded-full h-44 mx-auto mb-7'
+      />
+      <h1 className='text-3xl text-center md:max-w-lg px-5 mx-auto font-bold mb-8'>
+        Bringing Ideas to Life: Crafting Innovative Solutions.
+      </h1>
+      <div className='flex justify-center'>
+        <a
+          href='mailto:riverarenen02@gmail.com'
+          className='email-button text-lg'
+        >
+          <span className='top-key'></span>
+          <span className='text'>
+            <FontAwesomeIcon
+              beat
+              icon={faPaperPlane}
+              // size="lg"
+              className='mr-3 '
+            />
+            Email Me
+          </span>
+          <span className='bottom-key-1'></span>
+          <span className='bottom-key-2'></span>
+        </a>
+      </div>
+    </div>
+  );
+}
 
 function Hero() {
   return (
     <section
-      id="hero-section"
-      className="bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-gray-300"
+      id='hero-section'
+      className='bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-gray-300 relative overflow-hidden'
     >
-      <div className="max-w-screen-lg container mx-auto py-16 px-5 max-sm:py-12">
-        <img
-          src="/images/profile.png"
-          alt="profile"
-          className="rounded-full h-44 mx-auto mb-7"
-        />
-        <h1 className="text-3xl text-center md:max-w-lg px-5 mx-auto font-bold mb-8">
-          Bringing Ideas to Life: Crafting Innovative Solutions.
-        </h1>
-        <div className="flex justify-center">
-          <a
-            href="mailto:riverarenen02@gmail.com"
-            className="email-button text-lg"
-          >
-            <span className="top-key"></span>
-            <span className="text">
-              <FontAwesomeIcon
-                beat
-                icon={faPaperPlane}
-                // size="lg"
-                className="mr-3 "
-              />
-              Email Me
-            </span>
-            <span className="bottom-key-1"></span>
-            <span className="bottom-key-2"></span>
-          </a>
-        </div>
+      <HeroParticles />
+      <div className='relative top-0 left-0 z-10'>
+        <Header />
+        <Content />
       </div>
     </section>
   );

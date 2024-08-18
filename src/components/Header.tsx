@@ -1,10 +1,10 @@
 import {
-  faSquareFacebook,
+  faDiscord,
   faSquareGithub,
   faSquareUpwork,
   IconDefinition,
-} from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type LinkProps = {
   key?: string;
@@ -15,8 +15,8 @@ type LinkProps = {
 
 const Link: React.FC<LinkProps> = ({ icon, name, link }) => {
   return (
-    <a href={link} target="_blank">
-      <FontAwesomeIcon icon={icon} className="mr-1" />
+    <a href={link} target='_blank'>
+      <FontAwesomeIcon icon={icon} className='mr-1' />
       {name}
     </a>
   );
@@ -24,38 +24,36 @@ const Link: React.FC<LinkProps> = ({ icon, name, link }) => {
 
 const links: LinkProps[] = [
   {
-    key: "facebook",
-    icon: faSquareFacebook,
-    name: "Facebook",
-    link: "https://web.facebook.com/rivera.nen.02/",
+    key: 'discord',
+    icon: faDiscord,
+    name: 'Discord',
+    link: 'https://discordapp.com/users/1265838342415843388',
   },
   {
-    key: "github",
+    key: 'github',
     icon: faSquareGithub,
-    name: "Github",
-    link: "https://github.com/nen02",
+    name: 'Github',
+    link: 'https://github.com/nen02',
   },
   {
-    key: "upwork",
+    key: 'upwork',
     icon: faSquareUpwork,
-    name: "Upwork",
-    link: "https://www.upwork.com/freelancers/~0108515af6feb7bcaa",
+    name: 'Upwork',
+    link: 'https://www.upwork.com/freelancers/~0108515af6feb7bcaa',
   },
 ];
 
 function Header() {
   return (
-    <div className="bg-[#F6F5F4]">
-      <div className="container max-w-screen-lg mx-auto flex justify-end h-10 items-center gap-x-5 max-md:px-2">
-        {links.map((link) => (
-          <Link
-            key={link.key}
-            icon={link.icon}
-            name={link.name}
-            link={link.link}
-          />
-        ))}
-      </div>
+    <div className='container max-w-screen-lg mx-auto flex justify-end h-10 items-center gap-x-5 max-md:px-2'>
+      {links.map((link) => (
+        <Link
+          key={link.key}
+          icon={link.icon}
+          name={link.name}
+          link={link.link}
+        />
+      ))}
     </div>
   );
 }
