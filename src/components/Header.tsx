@@ -1,19 +1,7 @@
-import {
-  faDiscord,
-  faSquareGithub,
-  faSquareUpwork,
-  IconDefinition,
-} from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import links, { ILink } from '../data/links';
 
-type LinkProps = {
-  key?: string;
-  icon: IconDefinition;
-  name: string;
-  link: string;
-};
-
-const Link: React.FC<LinkProps> = ({ icon, name, link }) => {
+const Link: React.FC<ILink> = ({ icon, name, link }) => {
   return (
     <a href={link} target='_blank'>
       <FontAwesomeIcon icon={icon} className='mr-1' />
@@ -21,27 +9,6 @@ const Link: React.FC<LinkProps> = ({ icon, name, link }) => {
     </a>
   );
 };
-
-const links: LinkProps[] = [
-  {
-    key: 'discord',
-    icon: faDiscord,
-    name: 'Discord',
-    link: 'https://discordapp.com/users/1265838342415843388',
-  },
-  {
-    key: 'github',
-    icon: faSquareGithub,
-    name: 'Github',
-    link: 'https://github.com/nen02',
-  },
-  {
-    key: 'upwork',
-    icon: faSquareUpwork,
-    name: 'Upwork',
-    link: 'https://www.upwork.com/freelancers/~0108515af6feb7bcaa',
-  },
-];
 
 function Header() {
   return (
