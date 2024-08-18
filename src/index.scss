@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 400;
   font-style: normal;
   color: #3d3d3d;
@@ -16,7 +16,7 @@ $color_1: #3d3d3d;
 $bg_color_1: #f6f5f4;
 
 .email-button {
-  background-color: transparent;
+  background-color: #f6f5f499;
   border: 3px solid $color_1;
   box-sizing: border-box;
   color: $white;
@@ -41,51 +41,12 @@ $bg_color_1: #f6f5f4;
     text-decoration: none;
     color: $color_1;
   }
-  .top-key {
-    height: 3px;
-    width: 1.5625rem;
-    top: -3px;
-    left: 0.625rem;
-    position: absolute;
-    background: $bg_color_1;
-    transition: width 0.5s ease-out, left 0.3s ease-out;
-  }
-  .bottom-key-1 {
-    height: 3px;
-    width: 1.5625rem;
-    right: 1.875rem;
-    bottom: -3px;
-    position: absolute;
-    background: $bg_color_1;
-    transition: width 0.5s ease-out, right 0.3s ease-out;
-  }
-  .bottom-key-2 {
-    height: 3px;
-    width: 0.625rem;
-    right: 0.625rem;
-    bottom: -3px;
-    position: absolute;
-    background: $bg_color_1;
-    transition: width 0.5s ease-out, right 0.3s ease-out;
-  }
   &:hover {
     color: $white;
     background: $color_1;
     .text {
       color: $white;
       font-weight: 700;
-    }
-    .top-key {
-      left: -3px;
-      width: 0px;
-    }
-    .bottom-key-1 {
-      right: 0;
-      width: 0;
-    }
-    .bottom-key-2 {
-      right: 0;
-      width: 0;
     }
   }
 }

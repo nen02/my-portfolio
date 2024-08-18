@@ -3,7 +3,12 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { ISourceOptions } from '@tsparticles/engine';
 
+function randomNumber(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 const options: ISourceOptions = {
+  autoPlay: true,
   fpsLimit: 120,
   interactivity: {
     events: {
@@ -13,55 +18,59 @@ const options: ISourceOptions = {
       },
       onHover: {
         enable: true,
-        mode: 'repulse',
+        mode: 'grab',
       },
     },
     modes: {
       push: {
-        quantity: 4,
-      },
-      repulse: {
-        distance: 200,
-        duration: 0.4,
+        quantity: 1,
       },
     },
   },
   fullScreen: false,
+  smooth: true,
   particles: {
     color: {
-      value: '#3d3d3d',
+      value: Array.from({ length: 20 }, () => ({
+        hsl: {
+          h: randomNumber(0, 360),
+          l: 66,
+          s: 66,
+        },
+      })),
     },
     links: {
-      color: '#3d3d3d',
+      color: 'random',
       distance: 150,
       enable: true,
       opacity: 0.5,
       width: 1,
     },
     move: {
-      direction: 'none',
+      direction: 'top',
       enable: true,
-      outModes: {
-        default: 'bounce',
-      },
+      outModes: 'out',
       random: false,
-      speed: 6,
-      straight: false,
+      speed: 0.5,
+      straight: true,
+      attract: {
+        enable: true,
+      },
     },
     number: {
       density: {
         enable: true,
       },
-      value: 80,
+      value: 50,
     },
     opacity: {
-      value: 0.5,
+      value: 1,
     },
     shape: {
-      type: 'circle',
+      type: 'square',
     },
     size: {
-      value: { min: 1, max: 5 },
+      value: { min: 5, max: 20 },
     },
   },
   detectRetina: true,

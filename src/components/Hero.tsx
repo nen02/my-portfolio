@@ -19,7 +19,6 @@ function Content() {
           href='mailto:riverarenen02@gmail.com'
           className='email-button text-lg'
         >
-          <span className='top-key'></span>
           <span className='text'>
             <FontAwesomeIcon
               beat
@@ -29,8 +28,6 @@ function Content() {
             />
             Email Me
           </span>
-          <span className='bottom-key-1'></span>
-          <span className='bottom-key-2'></span>
         </a>
       </div>
     </div>
