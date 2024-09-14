@@ -1,9 +1,10 @@
 import {
   faDiscord,
+  faLinkedin,
   faSquareGithub,
   faSquareUpwork,
   IconDefinition,
-} from '@fortawesome/free-brands-svg-icons';
+} from "@fortawesome/free-brands-svg-icons";
 
 type ILink = {
   key?: string;
@@ -14,22 +15,28 @@ type ILink = {
 
 const links: ILink[] = [
   {
-    key: 'discord',
+    key: "discord",
     icon: faDiscord,
-    name: 'Discord',
-    link: 'https://discordapp.com/users/1265838342415843388',
+    name: "Discord",
+    link: "https://discordapp.com/users/1265838342415843388",
   },
   {
-    key: 'github',
+    key: "github",
     icon: faSquareGithub,
-    name: 'Github',
-    link: 'https://github.com/nen02',
+    name: "Github",
+    link: "https://github.com/nen02",
   },
   {
-    key: 'upwork',
+    key: "linkedin",
+    icon: faLinkedin,
+    name: "LinkedIn",
+    link: "https://www.linkedin.com/in/renen-rivera-746611328",
+  },
+  {
+    key: "upwork",
     icon: faSquareUpwork,
-    name: 'Upwork',
-    link: 'https://www.upwork.com/freelancers/~0108515af6feb7bcaa',
+    name: "Upwork",
+    link: "https://www.upwork.com/freelancers/~0108515af6feb7bcaa",
   },
 ];
 
