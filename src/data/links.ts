@@ -1,5 +1,4 @@
 import {
-  faDiscord,
   faLinkedin,
   faSquareGithub,
   faSquareUpwork,
