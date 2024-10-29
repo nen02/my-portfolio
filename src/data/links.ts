@@ -15,12 +15,6 @@ type ILink = {
 
 const links: ILink[] = [
   {
-    key: "discord",
-    icon: faDiscord,
-    name: "Discord",
-    link: "https://discordapp.com/users/1265838342415843388",
-  },
-  {
     key: "github",
     icon: faSquareGithub,
     name: "Github",
