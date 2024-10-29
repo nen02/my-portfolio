@@ -8,31 +8,31 @@ type IService = {
 const services: IService[] = [
   {
     key: 1,
-    url: '/svg/pencil-case.svg',
-    title: 'Creative Design',
+    url: "/svg/creative-design.svg",
+    title: "Creative Design",
     description:
-      'Crafting visually stunning designs that captivate and engage your audience.',
+      "Crafting visually stunning designs that captivate and engage your audience.",
   },
   {
     key: 2,
-    url: '/svg/website-theme.svg',
-    title: 'Website',
+    url: "/svg/website.svg",
+    title: "Website",
     description:
-      'Creating dynamic and user-friendly websites tailored to your business needs.',
+      "Creating dynamic and user-friendly websites tailored to your business needs.",
   },
   {
     key: 3,
-    url: '/svg/mobile-store-online.svg',
-    title: 'Mobile App',
+    url: "/svg/mobile-app.svg",
+    title: "Mobile App",
     description:
-      'Building robust mobile apps that offer a smooth and engaging user experience.',
+      "Building robust mobile apps that offer a smooth and engaging user experience.",
   },
   {
     key: 4,
-    url: '/svg/web-development.svg',
-    title: 'Custom Dev',
+    url: "/svg/custom-dev.svg",
+    title: "Custom Dev",
     description:
-      'Delivering tailored development solutions for complex challenges.',
+      "Delivering tailored development solutions for complex challenges.",
   },
 ];
 
