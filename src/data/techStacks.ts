@@ -93,7 +93,7 @@ const techStack: ITech[] = [
   {
     icon: "/svg/spring.svg",
     key: "spring-boot",
-    name: "Spring Boot",
+    name: "Spring",
   },
   {
     icon: "/svg/postgresql.svg",

@@ -1,7 +1,6 @@
 import {
   faLinkedin,
   faSquareGithub,
-  faSquareUpwork,
   IconDefinition,
 } from "@fortawesome/free-brands-svg-icons";
 
@@ -24,12 +23,6 @@ const links: ILink[] = [
     icon: faLinkedin,
     name: "LinkedIn",
     link: "https://www.linkedin.com/in/renen-rivera-746611328",
-  },
-  {
-    key: "upwork",
-    icon: faSquareUpwork,
-    name: "Upwork",
-    link: "https://www.upwork.com/freelancers/~0108515af6feb7bcaa",
   },
 ];
 
