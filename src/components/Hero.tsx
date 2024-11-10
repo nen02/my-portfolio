@@ -33,7 +33,7 @@ function Hero() {
   return (
     <section
       id="hero-section"
-      className="bg-[#F6F5F4] rounded-b-[120px] border-solid border-b-[1px] border-b-gray-300 relative overflow-hidden"
+      className="bg-[#F6F5F4] border-solid border-b-[1px] border-b-gray-300 relative overflow-hidden"
     >
       <HeroParticles />
       <div className="relative top-0 left-0 z-10">

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CallToAction() {
   return (
-    <section className="bg-[#F6F5F4] rounded-t-[120px] border-solid border-t-[1px] border-t-gray-300">
+    <section className="bg-[#F6F5F4] border-solid border-t-[1px] border-t-gray-300">
       <div className="max-w-screen-lg container mx-auto py-10 px-5">
         <div
           className="h-32 w-32 border-4 rounded-full flex justify-center items-center mx-auto mb-7 max-sm:h-24 max-sm:w-24"

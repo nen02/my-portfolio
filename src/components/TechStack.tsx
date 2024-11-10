@@ -2,7 +2,7 @@ import techStack from "../data/techStacks";
 
 function TechStack() {
   return (
-    <section className="container max-w-screen-lg mx-auto py-16 max-lg:px-10 max-sm:py-10">
+    <section className="container max-w-screen-lg mx-auto py-16 max-lg:px-10 max-sm:px-6 max-sm:py-10">
       <div className="flex items-center gap-x-4">
         <div className="w-6 h-[2px] bg-[#3d3d3d] max-sm:hidden" />
         <h2 className="text-2xl font-bold block max-sm:text-xl">Tech Stack</h2>
