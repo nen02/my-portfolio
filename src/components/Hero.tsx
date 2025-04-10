@@ -7,7 +7,7 @@ function Content() {
   return (
     <div className="max-w-screen-lg container mx-auto pt-4 pb-12 px-5 max-sm:pb-10">
       <img
-        src="/images/profile.png"
+        src="/images/profile.jpg"
         alt="profile"
         className="rounded-full h-44 mx-auto mb-7 max-sm:h-32"
       />
