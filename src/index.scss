@@ -3,50 +3,100 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Chakra Petch', sans-serif;
+  font-family: "Chakra Petch", sans-serif;
   font-weight: 400;
   font-style: normal;
-  color: #3d3d3d;
+  color: #e5e5e5;
+  scroll-behavior: smooth;
+  background-color: #0a0a0a;
 }
 
-$white: #fff;
-$black: #000;
-
-$color_1: #3d3d3d;
-$bg_color_1: #f6f5f4;
-
-.email-button {
-  background-color: #f6f5f499;
-  border: 3px solid $color_1;
-  box-sizing: border-box;
-  color: $white;
-  cursor: pointer;
-  display: inline-block;
-  letter-spacing: 0.05em;
-  margin: 0;
-  outline: none;
-  overflow: visible;
-  padding: 0.3em 0.8em;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  text-transform: none;
-  transition: all 0.3s ease-in-out;
-  user-select: none;
-  font-weight: 700;
-  .text {
-    display: block;
-    text-align: left;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none;
-    color: $color_1;
+// Floating animation
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
   }
-  &:hover {
-    color: $white;
-    background: $color_1;
-    .text {
-      color: $white;
-      font-weight: 700;
-    }
+  25% {
+    transform: translateY(-20px) translateX(10px);
   }
+  50% {
+    transform: translateY(-10px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-15px) translateX(5px);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  33% {
+    transform: translateY(-30px) translateX(15px);
+  }
+  66% {
+    transform: translateY(-15px) translateX(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+// Custom scrollbar for dark theme
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+// Selection color
+::selection {
+  background-color: rgba(34, 197, 94, 0.3);
+  color: #fff;
 }

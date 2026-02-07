@@ -1,31 +1,34 @@
-import { faHandshake, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CallToAction() {
   return (
-    <section className="bg-[#F6F5F4] border-solid border-t-[1px] border-t-gray-300">
-      <div className="max-w-screen-lg container mx-auto py-10 px-5">
-        <div
-          className="h-32 w-32 border-4 rounded-full flex justify-center items-center mx-auto mb-7 max-sm:h-24 max-sm:w-24"
-          style={{ borderColor: "#3d3d3d" }}
-        >
-          <FontAwesomeIcon icon={faHandshake} size="4x" />
-        </div>
-        <h1 className="text-4xl max-sm:text-3xl text-center md:max-w-lg px-5 mx-auto font-bold mb-8">
-          Let’s turn your idea into reality.
-        </h1>
-        <div className="flex justify-center">
+    <section className="py-32 bg-black relative">
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-green-500/10 rounded-full blur-3xl" />
+
+      <div className="container max-w-4xl mx-auto px-5 relative z-10">
+        <div className="text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-white via-white to-gray-400 bg-clip-text text-transparent">
+              Let's work
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent">
+              together
+            </span>
+          </h2>
+          <p className="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+            Have a project in mind? Let's discuss how we can bring your ideas to
+            life.
+          </p>
           <a
             href="mailto:riverarenen02@gmail.com"
-            className="email-button text-lg max-sm:text-base"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-green-500 hover:bg-green-400 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/25"
           >
-            <span className="top-key"></span>
-            <span className="text">
-              <FontAwesomeIcon beat icon={faPaperPlane} className="mr-3 " />
-              Email Me
-            </span>
-            <span className="bottom-key-1"></span>
-            <span className="bottom-key-2"></span>
+            <FontAwesomeIcon icon={faPaperPlane} />
+            Get in Touch
           </a>
         </div>
       </div>
