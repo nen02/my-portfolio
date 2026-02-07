@@ -1,9 +1,17 @@
-import { CallToAction, Footer, Hero, Services, TechStack } from "./components";
+import {
+  CallToAction,
+  Experience,
+  Footer,
+  Hero,
+  Services,
+  TechStack,
+} from "./components";
 
 function App() {
   return (
     <div className="content">
       <Hero />
+      <Experience />
       <TechStack />
       <Services />
       <CallToAction />
