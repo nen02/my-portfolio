@@ -15,7 +15,7 @@ interface TerminalLine {
 function TypedTerminal() {
   const terminalLines: TerminalLine[] = [
     { content: "$ cat about.txt" },
-    { content: "Name: Rivera Nen" },
+    { content: "Name: Renen Rivera" },
     { content: "Role: Full-Stack Developer" },
     { content: "Location: Philippines" },
     { content: "$ echo $HOBBIES" },
@@ -98,7 +98,7 @@ function TypedTerminal() {
 
 function TypedCodeEditor() {
   const code = `const developer = {
-  name: 'River Aren',
+  name: 'Renen Rivera',
   skills: ['React', 'Node.js'],
   passionate: true,
   readyToBuild: true

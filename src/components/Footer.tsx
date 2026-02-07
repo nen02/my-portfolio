@@ -15,7 +15,7 @@ function Footer() {
         <div className="flex flex-col items-center text-center gap-8">
           {/* Name and tagline */}
           <div className="flex flex-col items-center gap-2">
-            <p className="text-white font-bold text-2xl">Rivera Nen</p>
+            <p className="text-white font-bold text-2xl">Renen Rivera</p>
             <p className="text-gray-500 text-sm">
               Building digital experiences with passion
             </p>
