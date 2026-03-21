@@ -7,15 +7,14 @@ import links from "../data/links";
 
 function Footer() {
   return (
-    <footer className="py-16 bg-black relative overflow-hidden">
+    <footer className="py-16 -mt-px relative overflow-hidden">
       {/* Glow effect */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-2xl h-32 bg-purple-500/10 rounded-full blur-3xl" />
 
       <div className="container max-w-4xl mx-auto px-5 relative z-10">
         <div className="flex flex-col items-center text-center gap-8">
           {/* Name and tagline */}
           <div className="flex flex-col items-center gap-2">
-            <p className="text-white font-bold text-2xl">Renen Rivera</p>
+            <p className="text-gray-900 dark:text-white font-bold text-2xl">Renen Rivera</p>
             <p className="text-gray-500 text-sm">
               Building digital experiences with passion
             </p>
@@ -29,12 +28,12 @@ function Footer() {
                 href={link.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-purple-900/20 border border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-900/40 transition-all duration-300 group"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30 hover:border-purple-400 dark:hover:border-purple-500/50 hover:bg-purple-200/80 dark:hover:bg-purple-900/40 transition-all duration-300 group"
                 title={link.name}
               >
                 <FontAwesomeIcon
                   icon={link.icon}
-                  className="text-gray-400 group-hover:text-purple-400 transition-colors"
+                  className="text-gray-500 dark:text-gray-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"
                 />
               </a>
             ))}

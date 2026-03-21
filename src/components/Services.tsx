@@ -1,5 +1,5 @@
 import services from "../data/services";
-import { Section, Container, SectionHeader, GlowOrb, ServiceCard } from "./ui";
+import { Section, Container, SectionHeader, ServiceCard } from "./ui";
 
 // ============================================================================
 // Service Icons
@@ -163,12 +163,7 @@ function getServiceIcon(url: string): React.FC {
 
 function Services() {
   return (
-    <Section>
-      <GlowOrb className="top-20 left-20 w-96 h-96" />
-      <GlowOrb className="bottom-20 right-20 w-80 h-80" color="violet" />
-      <GlowOrb className="top-1/2 left-1/3 w-64 h-64" color="fuchsia" />
-      <GlowOrb className="bottom-40 left-10 w-48 h-48" />
-      <GlowOrb className="top-10 right-1/4 w-56 h-56" color="violet" />
+    <Section id="services">
 
       <Container>
         <SectionHeader title="Services" subtitle="What I can do for you" />

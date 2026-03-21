@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { GlowOrb, ScrollIndicator, Terminal, CodeEditor } from "./ui";
+import { ScrollIndicator, Terminal, CodeEditor } from "./ui";
 
 // ============================================================================
 // Typed Content Components
@@ -53,44 +53,51 @@ function TypedTerminal() {
       }, 30);
       return () => clearTimeout(timeoutId);
     }
-  }, [currentLineIndex, currentCharIndex]);
+  }, [currentLineIndex, currentCharIndex, terminalLines.length]);
 
   const highlightLine = (line: string): string => {
     let highlighted = line;
 
-    // Commands
     if (line.startsWith("$")) {
-      highlighted = `<span class="text-purple-400 font-bold">${line}</span>`;
+      highlighted = `<span class="text-purple-400 font-bold dark:text-purple-400 text-purple-600">${line}</span>`;
     }
-    // Labels
+    else if (line.includes("|") && line.includes(":")) {
+      highlighted = line.split("|").map((segment) => {
+        const s = segment.trim();
+        const colonIdx = s.indexOf(":");
+        if (colonIdx === -1) return `<span class="text-yellow-300 dark:text-yellow-300 text-yellow-600">${s}</span>`;
+        const label = s.substring(0, colonIdx + 1);
+        const value = s.substring(colonIdx + 1);
+        return `<span class="text-purple-300 dark:text-purple-300 text-purple-700">${label}</span><span class="text-yellow-300 dark:text-yellow-300 text-yellow-600">${value}</span>`;
+      }).join('<span class="text-gray-500 dark:text-gray-500 text-gray-400"> | </span>');
+    }
     else if (line.includes(":")) {
       const parts = line.split(":");
       const label = parts[0] + ":";
       const value = parts.slice(1).join(":");
-      highlighted = `<span class="text-purple-300">${label}</span><span class="text-yellow-300">${value}</span>`;
+      highlighted = `<span class="text-purple-300 dark:text-purple-300 text-purple-700">${label}</span><span class="text-yellow-300 dark:text-yellow-300 text-yellow-600">${value}</span>`;
     }
-    // Hobbies
     else if (line.includes("|")) {
       const parts = line.split("|");
       highlighted = parts
-        .map((p) => `<span class="text-pink-400">${p.trim()}</span>`)
-        .join('<span class="text-gray-500"> | </span>');
+        .map((p) => `<span class="text-pink-400 dark:text-pink-400 text-pink-600">${p.trim()}</span>`)
+        .join('<span class="text-gray-500 dark:text-gray-500 text-gray-400"> | </span>');
     }
 
     return highlighted;
   };
 
   return (
-    <Terminal title="about.txt" lines={displayedLines}>
+    <Terminal title="about.txt" lines={displayedLines} contentClassName="min-h-[176px]">
       {displayedLines.map((line, index) => (
         <div
           key={index}
-          className="text-gray-300"
+          className="text-gray-300 dark:text-gray-300 text-gray-700"
           dangerouslySetInnerHTML={{ __html: highlightLine(line) }}
         />
       ))}
       {currentLineIndex >= terminalLines.length && (
-        <div className="text-purple-400 animate-pulse">_</div>
+        <div className="text-purple-400 dark:text-purple-400 text-purple-600 animate-pulse">_</div>
       )}
     </Terminal>
   );
@@ -149,32 +156,32 @@ function TypedCodeEditor() {
     let highlighted = line;
     highlighted = highlighted.replace(
       /\b(const|let|var)\b/g,
-      '<span class="text-purple-400">$1</span>',
+      '<span class="text-purple-400 dark:text-purple-400 text-purple-600">$1</span>',
     );
     highlighted = highlighted.replace(
       /\b(true|false)\b/g,
-      '<span class="text-purple-400">$1</span>',
+      '<span class="text-purple-400 dark:text-purple-400 text-purple-600">$1</span>',
     );
     highlighted = highlighted.replace(
       /'[^']*'/g,
-      '<span class="text-yellow-300">$&</span>',
+      '<span class="text-yellow-300 dark:text-yellow-300 text-yellow-600">$&</span>',
     );
     return highlighted;
   };
 
   return (
-    <CodeEditor filename="developer.js">
+    <CodeEditor filename="developer.js" contentClassName="min-h-[112px]">
       {lines.map((line, index) => (
         <div key={index} className="flex items-center">
-          <span className="text-gray-600 w-6 select-none flex-shrink-0">
+          <span className="text-gray-600 dark:text-gray-600 text-gray-400 w-6 select-none flex-shrink-0">
             {index + 1}
           </span>
           <code
-            className="text-gray-300 whitespace-pre break-all"
+            className="text-gray-300 dark:text-gray-300 text-gray-700 whitespace-pre break-all"
             dangerouslySetInnerHTML={{ __html: highlightCode(line) }}
           />
           {index === currentLine && (
-            <span className="w-1 h-4 bg-purple-400 ml-1 animate-pulse inline-block" />
+            <span className="w-1 h-4 bg-purple-400 dark:bg-purple-400 bg-purple-600 ml-1 animate-pulse inline-block" />
           )}
         </div>
       ))}
@@ -189,11 +196,6 @@ function TypedCodeEditor() {
 function HeroContent() {
   return (
     <div className="max-w-6xl container mx-auto px-5 py-20 relative z-10">
-      {/* Floating orbs */}
-      <GlowOrb className="w-96 h-96 bg-purple-500 animate-float-slow top-0 left-0 -translate-x-1/2" />
-      <GlowOrb className="w-80 h-80 bg-violet-600 animate-float top-20 right-0 translate-x-1/3" />
-      <GlowOrb className="w-64 h-64 bg-fuchsia-500 animate-float-slow bottom-0 left-1/4" />
-
       <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
         {/* Left side - Terminal and Code editor windows */}
         <div className="flex-shrink-0 order-2 lg:order-1 flex flex-col gap-8">
@@ -213,7 +215,7 @@ function HeroContent() {
             />
             {/* Chat bubble - positioned at top-right of image */}
             <div className="absolute -top-5 -right-32 animate-float-gentle z-10">
-              <div className="relative bg-purple-500 text-white px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap shadow-lg shadow-purple-500/30">
+              <div className="relative bg-purple-500 text-white dark:text-white px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap shadow-lg shadow-purple-500/30">
                 {/* Bubble arrow - pointing down-left from bottom-left */}
                 <div className="absolute bottom-[-3px] left-4 transform translate-y-1 w-0 h-0 border-t-[20px] border-t-purple-500 border-r-[20px] border-r-transparent" />
                 <span className="pl-2">Knock knock. Me. Nen 😄</span>
@@ -222,16 +224,16 @@ function HeroContent() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-white via-white to-gray-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 dark:from-white dark:via-white dark:to-gray-400 bg-clip-text text-transparent">
               Full-Stack
             </span>
             <br />
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 dark:from-purple-400 dark:via-violet-400 dark:to-purple-500 bg-clip-text text-transparent">
               Developer
             </span>
           </h1>
 
-          <p className="text-xl text-gray-400 mb-8 max-w-lg leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-lg leading-relaxed">
             Building digital experiences with clean code and creative solutions.
             Let's bring your ideas to life.
           </p>
@@ -239,7 +241,7 @@ function HeroContent() {
           <div className="w-full flex justify-center lg:justify-start">
             <a
               href="mailto:riverarenen02@gmail.com"
-              className="group px-10 py-4 bg-purple-500 hover:bg-purple-400 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
+              className="group px-10 py-4 bg-purple-500 hover:bg-purple-400 text-white dark:text-black dark:hover:text-black rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
             >
               <span className="flex items-center justify-center gap-2">
                 <FontAwesomeIcon
@@ -264,7 +266,7 @@ function Hero() {
   return (
     <section
       id="hero-section"
-      className="bg-black relative overflow-hidden min-h-screen flex items-center"
+      className="relative overflow-hidden min-h-screen flex items-center"
     >
       <div className="relative z-10 w-full pb-16">
         <HeroContent />

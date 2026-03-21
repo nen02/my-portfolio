@@ -1,8 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        light: {
+          bg: "#f8f9fa",
+          surface: "#ffffff",
+          text: "#1a1a2e",
+          border: "#e9ecef",
+        },
+      },
       fontFamily: {
         sans: ["Chakra Petch", "sans-serif"],
       },

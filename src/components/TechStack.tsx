@@ -1,5 +1,5 @@
 import techStack from "../data/techStacks";
-import { Section, Container, SectionHeader, GlowOrb } from "./ui";
+import { Section, Container, SectionHeader } from "./ui";
 
 // ============================================================================
 // Tech Stack Component
@@ -7,12 +7,7 @@ import { Section, Container, SectionHeader, GlowOrb } from "./ui";
 
 function TechStack() {
   return (
-    <Section>
-      <GlowOrb className="top-30 right-30 w-[500px] h-[500px]" color="violet" />
-      <GlowOrb className="bottom-30 left-20 w-96 h-96" />
-      <GlowOrb className="top-20 left-1/3 w-64 h-64" color="fuchsia" />
-      <GlowOrb className="bottom-20 right-1/4 w-56 h-56" color="violet" />
-      <GlowOrb className="top-1/2 right-20 w-48 h-48" />
+    <Section id="tech-stack">
 
       <Container>
         <SectionHeader title="Tech Stack" subtitle="Technologies I use" />
@@ -21,7 +16,7 @@ function TechStack() {
           {techStack.map((tech, index) => (
             <div
               key={tech.key}
-              className="group flex flex-col items-center p-6 rounded-2xl bg-purple-900/20 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:bg-purple-900/30"
+              className="group flex flex-col items-center p-6 rounded-2xl bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30 hover:border-purple-400 dark:hover:border-purple-500/50 transition-all duration-300 hover:bg-purple-200/80 dark:hover:bg-purple-900/30"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="relative">
@@ -29,10 +24,10 @@ function TechStack() {
                 <img
                   src={tech.icon}
                   alt={tech.name}
-                  className={`relative h-10 w-10 md:h-14 md:w-14 object-contain group-hover:scale-110 transition-transform duration-300 ${tech.name === "Express" ? "brightness-0 invert" : ""}`}
+                  className={`relative h-10 w-10 md:h-14 md:w-14 object-contain group-hover:scale-110 transition-transform duration-300 ${tech.name === "Express" ? "dark:brightness-0 dark:invert" : ""}`}
                 />
               </div>
-              <p className="text-center mt-4 text-sm font-medium text-gray-300 group-hover:text-purple-400 transition-colors">
+              <p className="text-center mt-4 text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                 {tech.name}
               </p>
             </div>
