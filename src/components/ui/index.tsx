@@ -180,7 +180,7 @@ export function Container({
 
   return (
     <div
-      className={`container mx-auto px-5 ${maxWidthClasses[maxWidth]} relative z-10 ${className}`}
+      className={`container mx-auto px-6 md:px-5 ${maxWidthClasses[maxWidth]} relative z-10 ${className}`}
     >
       {children}
     </div>

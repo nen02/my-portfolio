@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function CallToAction() {
   return (
     <section id="contact" className="py-32 relative overflow-hidden">
-<div className="container max-w-4xl mx-auto px-5 relative z-10">
+<div className="container max-w-4xl mx-auto px-6 md:px-5 relative z-10">
         <div className="text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-gray-700 via-gray-600 to-gray-500 dark:from-white dark:via-white dark:to-gray-400 bg-clip-text text-transparent">

@@ -195,7 +195,7 @@ function TypedCodeEditor() {
 
 function HeroContent() {
   return (
-    <div className="max-w-6xl container mx-auto px-5 py-20 relative z-10">
+    <div className="max-w-6xl container mx-auto px-6 md:px-5 py-20 relative z-10">
       <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
         {/* Left side - Terminal and Code editor windows */}
         <div className="flex-shrink-0 order-2 lg:order-1 flex flex-col gap-8">

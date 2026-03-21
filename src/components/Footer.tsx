@@ -10,7 +10,7 @@ function Footer() {
     <footer className="py-16 -mt-px relative overflow-hidden">
       {/* Glow effect */}
 
-      <div className="container max-w-4xl mx-auto px-5 relative z-10">
+      <div className="container max-w-4xl mx-auto px-6 md:px-5 relative z-10">
         <div className="flex flex-col items-center text-center gap-8">
           {/* Name and tagline */}
           <div className="flex flex-col items-center gap-2">
