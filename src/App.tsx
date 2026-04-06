@@ -6,6 +6,7 @@ import {
   Hero,
   Navbar,
   PixelBackground,
+  Projects,
   Services,
   TechStack,
 } from "./components";
@@ -47,6 +48,7 @@ function App() {
         <Hero />
         <Experience />
         <TechStack />
+        <Projects />
         <Services />
         <CallToAction />
         <Footer />

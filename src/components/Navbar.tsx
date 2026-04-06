@@ -4,6 +4,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const navItems = [
   { label: "Experience", href: "#experience" },
   { label: "Tech Stack", href: "#tech-stack" },
+  { label: "Projects", href: "#projects" },
   { label: "Services", href: "#services" },
   { label: "Contact", href: "#contact" },
 ];
@@ -24,7 +25,7 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const ids = ["experience", "tech-stack", "services", "contact"];
+    const ids = ["experience", "tech-stack", "projects", "services", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
