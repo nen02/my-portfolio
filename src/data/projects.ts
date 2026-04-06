@@ -17,6 +17,7 @@ export interface IProject {
     privacy?: string;
   };
   color: string;
+  icon?: string;
 }
 
 const projects: IProject[] = [
@@ -33,6 +34,7 @@ const projects: IProject[] = [
       privacy: "/privacy/nummz",
     },
     color: "from-violet-500 to-purple-600",
+    icon: "/nummz-icon.png",
   },
 ];
 

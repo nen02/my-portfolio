@@ -53,30 +53,6 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; className: string }>
 };
 
 // ============================================================================
-// App Icon
-// ============================================================================
-
-function NummzIcon() {
-  return (
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="64" height="64" rx="16" className="fill-purple-500/20" />
-      <path
-        d="M16 44 L16 24 L24 24 L32 36 L32 24 L40 24 L40 44 L32 44 L24 32 L24 44 Z"
-        fill="currentColor"
-        className="text-purple-400"
-      />
-      <path
-        d="M42 38 L48 38 M45 35 L45 41"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        className="text-purple-300"
-      />
-    </svg>
-  );
-}
-
-// ============================================================================
 // Project Card
 // ============================================================================
 
@@ -90,7 +66,13 @@ function ProjectCard({ project }: { project: IProject }) {
         {/* Header */}
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-xl flex-shrink-0 overflow-hidden">
-            <NummzIcon />
+            {project.icon ? (
+              <img src={project.icon} alt={`${project.name} icon`} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full rounded-xl bg-purple-500/20 flex items-center justify-center">
+                <span className="text-purple-400 font-bold text-xl">{project.name[0].toUpperCase()}</span>
+              </div>
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
