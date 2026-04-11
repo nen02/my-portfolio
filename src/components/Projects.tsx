@@ -147,16 +147,6 @@ function ProjectCard({ project }: { project: IProject }) {
                 Play Store
               </a>
             )}
-            {project.links.github && (
-              <a
-                href={project.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-xs px-3 py-1.5 rounded-lg ${colors.background} ${colors.border} ${colors.borderHover} text-gray-600 dark:text-gray-400 font-medium transition-colors`}
-              >
-                GitHub
-              </a>
-            )}
           </div>
         </div>
       </div>

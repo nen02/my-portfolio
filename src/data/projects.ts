@@ -44,7 +44,7 @@ const projects: IProject[] = [
     tagline: "Personal Finance Manager",
     description:
       "A mobile app for tracking expenses, managing budgets, monitoring debts, and planning finances — all stored locally on your device.",
-    platforms: ["android"],
+    platforms: ["android", "ios"],
     tech: ["React Native", "Expo", "SQLite", "TypeScript"],
     status: "in-development",
     links: {
