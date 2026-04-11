@@ -129,6 +129,14 @@ function ProjectCard({ project }: { project: IProject }) {
                 Privacy Policy
               </a>
             )}
+            {project.links.docs && (
+              <a
+                href={project.links.docs}
+                className={`text-xs px-3 py-1.5 rounded-lg ${colors.background} ${colors.border} ${colors.borderHover} text-gray-600 dark:text-gray-400 font-medium transition-colors`}
+              >
+                Docs
+              </a>
+            )}
             {project.links.playStore && (
               <a
                 href={project.links.playStore}

@@ -15,12 +15,29 @@ export interface IProject {
     github?: string;
     web?: string;
     privacy?: string;
+    docs?: string;
   };
   color: string;
   icon?: string;
 }
 
 const projects: IProject[] = [
+  {
+    key: "ntrack",
+    name: "ntrack",
+    tagline: "Desktop Activity Tracker",
+    description:
+      "A system-tray agent that silently tracks active window usage and sends daily activity reports to the nwork backend. Runs on macOS, Windows, and Linux.",
+    platforms: ["desktop"],
+    tech: ["Python", "SQLite", "psutil", "pystray"],
+    status: "released",
+    links: {
+      github: "https://github.com/nen02/ntrack-app",
+      docs: "/docs/ntrack",
+    },
+    color: "from-emerald-500 to-teal-600",
+    icon: "/ntrack-icon.png",
+  },
   {
     key: "nummz",
     name: "nummz",

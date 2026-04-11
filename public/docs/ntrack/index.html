@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup Guide — ntrack</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f18;
+      --surface: #1a1a2e;
+      --border: rgba(16, 185, 129, 0.15);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #34d399;
+      --accent-dim: rgba(52, 211, 153, 0.1);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 28px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back:hover { opacity: 1; }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 14px;
+      margin-bottom: 20px;
+    }
+    .app-badge img { width: 20px; height: 20px; border-radius: 4px; }
+    .app-badge span { font-size: 13px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #34d399 60%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .meta { font-size: 14px; color: var(--muted); }
+
+    /* TOC */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .toc ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toc a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    section {
+      margin-bottom: 52px;
+      scroll-margin-top: 32px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2::before {
+      content: "";
+      display: block;
+      width: 3px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin: 24px 0 10px;
+    }
+
+    p { color: var(--muted); margin-bottom: 14px; font-size: 15px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    li strong { color: var(--text); }
+
+    /* Code blocks */
+    pre {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    code {
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+    }
+    pre code { color: #a8d8b9; }
+    .comment { color: #6272a4; }
+    .kw { color: #ff79c6; }
+    .str { color: #f1fa8c; }
+    .key { color: #8be9fd; }
+    .val { color: #bd93f9; }
+    .punct { color: #94a3b8; }
+
+    /* Inline code */
+    p code, li code, td code {
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 6px;
+      color: var(--accent);
+      font-size: 13px;
+    }
+
+    /* Callout boxes */
+    .info, .warn, .tip {
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .info { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+    .warn { background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.2); }
+    .tip  { background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.2); }
+    .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .info p, .warn p, .tip p { margin-bottom: 0; }
+    .info p { color: #6ee7b7; }
+    .warn p { color: #fcd34d; }
+    .tip  p { color: #c4b5fd; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; margin: 16px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--muted);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Step list */
+    .steps { counter-reset: step; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step);
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .steps li p { margin-bottom: 0; }
+
+    /* Platform tabs */
+    .tabs { display: flex; gap: 6px; margin-bottom: -1px; }
+    .tab-btn {
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+    }
+    .tab-btn.active { background: #0d1117; color: var(--accent); border-color: var(--border); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-panel {
+      border: 1px solid var(--border);
+      border-radius: 0 8px 8px 8px;
+      overflow: hidden;
+    }
+
+    /* Tray indicator dots */
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+    .dot-green  { background: #22c55e; }
+    .dot-orange { background: #f97316; }
+    .dot-red    { background: #ef4444; }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header>
+      <a class="back" href="/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Back to portfolio
+      </a>
+
+      <div class="app-badge">
+        <img src="/ntrack-icon.png" alt="ntrack icon" />
+        <span>ntrack · Desktop Agent</span>
+      </div>
+
+      <h1>Setup Guide</h1>
+      <p class="meta">How to install and connect ntrack to a nwork backend service</p>
+    </header>
+
+    <nav class="toc">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#backend">Backend Setup</a></li>
+        <li><a href="#install">Installing ntrack</a></li>
+        <li><a href="#configure">Configuration</a></li>
+        <li><a href="#env-vars">Environment Variables</a></li>
+        <li><a href="#api">API Reference</a></li>
+        <li><a href="#tray">Tray Menu</a></li>
+        <li><a href="#build">Building from Source</a></li>
+      </ol>
+    </nav>
+
+    <!-- ── Overview ── -->
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        ntrack is a lightweight system-tray agent that monitors which applications and browser tabs are active
+        on a desktop and periodically sends a daily summary to a <strong style="color: var(--text)">nwork</strong> backend.
+        It is designed to run silently in the background with no user interaction required after initial setup.
+      </p>
+      <div class="info">
+        <span class="info-icon">ℹ️</span>
+        <p>ntrack reports to <strong>nwork</strong> — an HR backend service. You must have a running nwork instance
+        and an API key generated from it before ntrack can send data.</p>
+      </div>
+      <p>What ntrack tracks per day:</p>
+      <ul>
+        <li>Total active and idle time (minutes)</li>
+        <li>Per-app usage (app name + browser domain, minutes)</li>
+        <li>Hourly breakdown of app usage</li>
+        <li>Session intervals <code>(app, tab, start, end)</code></li>
+      </ul>
+    </section>
+
+    <!-- ── Requirements ── -->
+    <section id="requirements">
+      <h2>Requirements</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Requirement</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Python 3.11+</td><td>Only needed when running from source or building</td></tr>
+            <tr><td>macOS, Windows, or Linux</td><td>All three platforms are supported</td></tr>
+            <tr><td>nwork backend</td><td>Running and reachable on the network</td></tr>
+            <tr><td>API key</td><td>Generated from nwork web app under <strong>API Keys</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        On <strong style="color: var(--text)">macOS</strong>, ntrack requires Accessibility permission to detect the active window.
+        You will be prompted on first launch — grant it in
+        <strong style="color: var(--text)">System Settings → Privacy &amp; Security → Accessibility</strong>.
+      </p>
+    </section>
+
+    <!-- ── Backend Setup ── -->
+    <section id="backend">
+      <h2>Backend Setup</h2>
+      <p>Before installing ntrack, make sure the nwork backend is running and you have an API key.</p>
+
+      <h3>1. Start the nwork backend</h3>
+      <pre><code><span class="comment"># From the nwork-server directory</span>
+docker compose up -d          <span class="comment"># Start PostgreSQL</span>
+./mvnw spring-boot:run        <span class="comment"># Runs on http://localhost:8765</span></code></pre>
+
+      <h3>2. Generate an API Key</h3>
+      <ol class="steps">
+        <li><p>Log in to the nwork web app as the employee who will run ntrack.</p></li>
+        <li><p>Navigate to <strong style="color: var(--text)">Profile → API Keys</strong> and click <strong style="color: var(--text)">Generate Key</strong>.</p></li>
+        <li><p>Copy the key — it will only be shown once.</p></li>
+      </ol>
+
+      <div class="warn">
+        <span class="info-icon">⚠️</span>
+        <p>The API key authenticates as <strong>that specific employee</strong>. Each machine running ntrack should use the API key of the employee who works on it.</p>
+      </div>
+    </section>
+
+    <!-- ── Install ── -->
+    <section id="install">
+      <h2>Installing ntrack</h2>
+
+      <h3>Option A — Download a pre-built binary</h3>
+      <p>
+        Download the latest release for your platform from the
+        <a href="https://github.com/nen02/ntrack-app/releases" target="_blank" rel="noopener noreferrer" style="color: var(--accent)">GitHub Releases</a> page.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Platform</th><th>File</th><th>Location after install</th></tr></thead>
+          <tbody>
+            <tr><td>macOS</td><td><code>ntrack.dmg</code></td><td>Drag <code>ntrack.app</code> to <code>/Applications</code></td></tr>
+            <tr><td>Windows</td><td><code>ntrack-setup.exe</code></td><td>Installs to <code>%LOCALAPPDATA%\ntrack</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warn">
+        <span class="info-icon">⚠️</span>
+        <p><strong>macOS Gatekeeper:</strong> If the app is blocked, right-click → Open, or run:
+        <code>xattr -cr /Applications/ntrack.app</code></p>
+      </div>
+
+      <h3>Option B — Run from source</h3>
+      <pre><code>git clone https://github.com/nen02/ntrack-app.git
+cd ntrack-app
+
+<span class="comment"># Create virtual environment</span>
+python3 -m venv .venv
+source .venv/bin/activate        <span class="comment"># Windows: .venv\Scripts\activate</span>
+
+<span class="comment"># Install dependencies</span>
+pip install -r requirements.txt
+
+<span class="comment"># Run</span>
+python main.py</code></pre>
+    </section>
+
+    <!-- ── Configure ── -->
+    <section id="configure">
+      <h2>Configuration</h2>
+      <p>On first launch, ntrack starts in a <strong style="color: var(--text)">disconnected</strong> state. Open the tray icon and go to <strong style="color: var(--text)">Settings</strong> to enter:</p>
+      <ul>
+        <li><strong>API URL</strong> — base URL of your nwork backend (e.g. <code>http://192.168.1.10:8765</code>)</li>
+        <li><strong>API Key</strong> — the key generated in the nwork web app</li>
+      </ul>
+
+      <p>Config is saved to a persistent directory that survives app updates:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Platform</th><th>Config path</th></tr></thead>
+          <tbody>
+            <tr><td>macOS</td><td><code>~/Library/Application Support/ntrack/ntrack_config.json</code></td></tr>
+            <tr><td>Windows</td><td><code>%APPDATA%\ntrack\ntrack_config.json</code></td></tr>
+            <tr><td>Linux</td><td><code>~/.config/ntrack/ntrack_config.json</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Example config file:</p>
+      <pre><code><span class="punct">{</span>
+  <span class="key">"api_url"</span><span class="punct">:</span> <span class="str">"http://localhost:8765"</span><span class="punct">,</span>
+  <span class="key">"api_key"</span><span class="punct">:</span> <span class="str">"your-api-key-here"</span>
+<span class="punct">}</span></code></pre>
+
+      <div class="tip">
+        <span class="info-icon">💡</span>
+        <p>You can also seed the config via environment variables on first run — useful for automated deployments. See <a href="#env-vars" style="color: var(--accent)">Environment Variables</a> below.</p>
+      </div>
+    </section>
+
+    <!-- ── Env Vars ── -->
+    <section id="env-vars">
+      <h2>Environment Variables</h2>
+      <p>These are read on startup and only take effect if no config file exists yet (i.e. first run).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>NTRACK_API_URL</code></td>
+              <td><code>http://localhost:8765</code></td>
+              <td>Base URL of the nwork backend</td>
+            </tr>
+            <tr>
+              <td><code>NTRACK_API_KEY</code></td>
+              <td><em>empty</em></td>
+              <td>API key for authentication</td>
+            </tr>
+            <tr>
+              <td><code>NTRACK_POLL_INTERVAL</code></td>
+              <td><code>5</code></td>
+              <td>Active window sample interval in seconds</td>
+            </tr>
+            <tr>
+              <td><code>NTRACK_REPORT_INTERVAL</code></td>
+              <td><code>60</code></td>
+              <td>How often to send a report to the backend (seconds)</td>
+            </tr>
+            <tr>
+              <td><code>NTRACK_DEVICE</code></td>
+              <td>System hostname</td>
+              <td>Device label included in reports</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── API Reference ── -->
+    <section id="api">
+      <h2>API Reference</h2>
+      <p>ntrack communicates with a single nwork endpoint.</p>
+
+      <h3>POST /api/v1/activity/report</h3>
+      <p>Submits the daily activity report for the authenticated employee. ntrack calls this every <code>NTRACK_REPORT_INTERVAL</code> seconds.</p>
+
+      <p><strong style="color: var(--text)">Authentication:</strong> <code>X-Api-Key: &lt;api-key&gt;</code> request header.</p>
+
+      <p><strong style="color: var(--text)">Request body:</strong></p>
+      <pre><code><span class="punct">{</span>
+  <span class="key">"date"</span><span class="punct">:</span>             <span class="str">"2026-04-11"</span><span class="punct">,</span>          <span class="comment">// required — ISO date (yyyy-MM-dd)</span>
+  <span class="key">"startTime"</span><span class="punct">:</span>        <span class="str">"2026-04-11T08:03:00"</span><span class="punct">,</span>  <span class="comment">// first active timestamp of the day</span>
+  <span class="key">"endTime"</span><span class="punct">:</span>          <span class="str">"2026-04-11T17:45:00"</span><span class="punct">,</span>  <span class="comment">// last active timestamp</span>
+  <span class="key">"activeMinutes"</span><span class="punct">:</span>    <span class="val">372</span><span class="punct">,</span>
+  <span class="key">"idleMinutes"</span><span class="punct">:</span>      <span class="val">88</span><span class="punct">,</span>
+  <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">210</span> <span class="punct">},</span>
+    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Chrome"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="str">"github.com"</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">62</span> <span class="punct">}</span>
+  <span class="punct">],</span>
+  <span class="key">"hourlyBreakdown"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span>
+      <span class="key">"hour"</span><span class="punct">:</span> <span class="val">9</span><span class="punct">,</span>
+      <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span>
+        <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">45</span> <span class="punct">}</span>
+      <span class="punct">]</span>
+    <span class="punct">}</span>
+  <span class="punct">],</span>
+  <span class="key">"sessions"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span>
+      <span class="key">"name"</span><span class="punct">:</span>  <span class="str">"Chrome"</span><span class="punct">,</span>
+      <span class="key">"tab"</span><span class="punct">:</span>   <span class="str">"github.com"</span><span class="punct">,</span>        <span class="comment">// null for non-browser apps</span>
+      <span class="key">"start"</span><span class="punct">:</span> <span class="str">"2026-04-11T09:15:00"</span><span class="punct">,</span>
+      <span class="key">"end"</span><span class="punct">:</span>   <span class="str">"2026-04-11T09:42:00"</span>
+    <span class="punct">}</span>
+  <span class="punct">]</span>
+<span class="punct">}</span></code></pre>
+
+      <p><strong style="color: var(--text)">Success response</strong> <code>200 OK</code>:</p>
+      <pre><code><span class="punct">{</span>
+  <span class="key">"data"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"id"</span><span class="punct">:</span> <span class="val">42</span><span class="punct">,</span>
+    <span class="key">"employeeId"</span><span class="punct">:</span> <span class="val">7</span><span class="punct">,</span>
+    <span class="key">"employeeName"</span><span class="punct">:</span> <span class="str">"Juan dela Cruz"</span><span class="punct">,</span>
+    <span class="key">"date"</span><span class="punct">:</span> <span class="str">"2026-04-11"</span><span class="punct">,</span>
+    <span class="key">"activeMinutes"</span><span class="punct">:</span> <span class="val">372</span><span class="punct">,</span>
+    <span class="key">"idleMinutes"</span><span class="punct">:</span> <span class="val">88</span><span class="punct">,</span>
+    <span class="comment">// ... apps, sessions, hourlyBreakdown echoed back</span>
+    <span class="key">"reportedAt"</span><span class="punct">:</span> <span class="str">"2026-04-11T17:45:02"</span>
+  <span class="punct">},</span>
+  <span class="key">"message"</span><span class="punct">:</span> <span class="str">"Activity reported"</span>
+<span class="punct">}</span></code></pre>
+
+      <p><strong style="color: var(--text)">Error responses:</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Cause</th></tr></thead>
+          <tbody>
+            <tr><td><code>400</code></td><td><code>date</code> field missing or invalid format</td></tr>
+            <tr><td><code>401</code></td><td>Missing or invalid <code>X-Api-Key</code></td></tr>
+            <tr><td><code>403</code></td><td>Key exists but does not have reporting permission</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip">
+        <span class="info-icon">💡</span>
+        <p>If a report for the same <code>date</code> already exists, the backend <strong>upserts</strong> — it updates the existing record rather than creating a duplicate.</p>
+      </div>
+    </section>
+
+    <!-- ── Tray ── -->
+    <section id="tray">
+      <h2>Tray Menu</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>View Logs</strong></td><td>Opens a window showing real-time tracking status and recent report history</td></tr>
+            <tr><td><strong>Settings</strong></td><td>Configure API URL and API Key</td></tr>
+            <tr><td><strong>Quit</strong></td><td>Stop ntrack and remove it from the tray</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The tray icon color indicates the current connection state:</p>
+      <ul>
+        <li><span class="dot dot-orange"></span><strong>Orange</strong> — connecting / first launch, not yet configured</li>
+        <li><span class="dot dot-green"></span><strong>Green</strong> — connected, reports sending successfully</li>
+        <li><span class="dot dot-red"></span><strong>Red</strong> — error or disconnected (check API URL and key)</li>
+      </ul>
+    </section>
+
+    <!-- ── Build ── -->
+    <section id="build">
+      <h2>Building from Source</h2>
+
+      <h3>macOS (.app)</h3>
+      <pre><code>chmod +x build.sh
+./build.sh</code></pre>
+      <p>Output: <code>dist/ntrack.app</code>. Optionally wraps into a <code>.dmg</code> if <code>create-dmg</code> is installed (<code>brew install create-dmg</code>).</p>
+
+      <h3>Windows (.exe)</h3>
+      <pre><code>.\build.ps1</code></pre>
+      <p>Output: <code>dist\ntrack\ntrack.exe</code>. Requires PyInstaller (installed via <code>requirements.txt</code>).</p>
+
+      <h3>Running tests</h3>
+      <pre><code>pytest -v</code></pre>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 nenspace &nbsp;·&nbsp; <a href="/">Portfolio</a> &nbsp;·&nbsp; <a href="https://github.com/nen02/ntrack-app" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </footer>
+
+  </div>
+</body>
+</html>
