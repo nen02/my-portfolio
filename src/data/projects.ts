@@ -16,6 +16,7 @@ export interface IProject {
     web?: string;
     privacy?: string;
     docs?: string;
+    page?: string;
   };
   color: string;
   icon?: string;
@@ -48,6 +49,7 @@ const projects: IProject[] = [
     tech: ["React Native", "Expo", "SQLite", "TypeScript"],
     status: "in-development",
     links: {
+      page: "/nummz",
       privacy: "/privacy/nummz",
     },
     color: "from-violet-500 to-purple-600",

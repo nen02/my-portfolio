@@ -11,7 +11,7 @@ function serveStaticSubpages(): import('vite').Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = (req.url ?? '/').split('?')[0].replace(/\/$/, '')
-        if (url.startsWith('/docs') || url.startsWith('/privacy')) {
+        if (url.startsWith('/docs') || url.startsWith('/privacy') || url.startsWith('/nummz')) {
           const candidate = path.resolve('public', url.slice(1), 'index.html')
           if (fs.existsSync(candidate)) {
             res.setHeader('Content-Type', 'text/html')

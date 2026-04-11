@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nummz — Personal Finance Manager</title>
+  <link rel="icon" href="/nummz-icon.png" type="image/png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f18;
+      --surface: #1a1a2e;
+      --surface2: #16162a;
+      --border: rgba(139, 92, 246, 0.15);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #a78bfa;
+      --accent-dim: rgba(167, 139, 250, 0.1);
+      --accent-glow: rgba(167, 139, 250, 0.25);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    /* ── Header ── */
+    header {
+      margin-bottom: 64px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 14px;
+    }
+    .app-badge img {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+    }
+    .app-badge span {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back:hover { opacity: 1; }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .hero-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+
+    .hero-text h1 {
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 55%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .hero-text p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 480px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    .badge-status {
+      background: rgba(96, 165, 250, 0.1);
+      border-color: rgba(96, 165, 250, 0.3);
+      color: #93c5fd;
+    }
+
+    /* ── Feature Sections ── */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
+    }
+
+    .feature {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .feature-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .feature h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .feature p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    /* ── Screenshot Gallery ── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .gallery-2 {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 420px;
+    }
+
+    .screenshot {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: zoom-in;
+    }
+    .screenshot:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .screenshot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Tech Stack ── */
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-tag {
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Status Banner ── */
+    .status-banner {
+      background: rgba(96, 165, 250, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 56px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #60a5fa;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px #60a5fa;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-banner p {
+      font-size: 14px;
+      color: #93c5fd;
+      margin: 0;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: min(360px, 85vw);
+      max-height: 85vh;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-icon { width: 72px; height: 72px; }
+      .gallery-3 { grid-template-columns: repeat(2, 1fr); }
+      .gallery-2 { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <div class="app-badge">
+          <img src="/nummz-icon.png" alt="nummz icon" />
+          <span>nummz · Mobile App</span>
+        </div>
+        <a class="back" href="/#projects">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+          Back to portfolio
+        </a>
+      </div>
+
+      <div class="hero">
+        <img src="/nummz-icon.png" alt="nummz" class="hero-icon" />
+        <div class="hero-text">
+          <h1>nummz</h1>
+          <p>A private-first personal finance manager. Track expenses, manage budgets, monitor debts — all stored locally on your device.</p>
+          <div class="badges">
+            <span class="badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341a1.01 1.01 0 01-1.012-1.01 1.01 1.01 0 011.012-1.01 1.01 1.01 0 011.01 1.01 1.01 1.01 0 01-1.01 1.01m-11.046 0a1.01 1.01 0 01-1.01-1.01 1.01 1.01 0 011.01-1.01 1.01 1.01 0 011.012 1.01 1.01 1.01 0 01-1.012 1.01m11.4-6.021l1.96-3.394a.406.406 0 00-.149-.555.406.406 0 00-.555.15l-1.985 3.439A11.94 11.94 0 0012 8.318c-1.664 0-3.243.338-4.678.942L5.337 5.821a.406.406 0 00-.555-.15.406.406 0 00-.149.555l1.96 3.394C3.79 11.12 2.077 13.812 2 17h20c-.077-3.188-1.79-5.88-4.123-7.68"/></svg>
+              Android
+            </span>
+            <span class="badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              iOS
+            </span>
+            <span class="badge badge-status">In Development</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Status Banner -->
+    <div class="status-banner">
+      <div class="status-dot"></div>
+      <p>nummz is currently in active development. Features and UI are subject to change before release.</p>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+
+      <!-- Dashboard -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">📊</div>
+          <h2>Dashboard</h2>
+        </div>
+        <p>Get a complete overview of your finances at a glance — total balance, recent transactions, spending trends, and upcoming payments all in one place.</p>
+        <div class="gallery gallery-3">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/dashboard_1.jpg" alt="Dashboard overview" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/dashboard_2.jpg" alt="Dashboard trends" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/dashboard_3.jpg" alt="Dashboard details" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Budget -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">🎯</div>
+          <h2>Budget Tracking</h2>
+        </div>
+        <p>Set monthly budgets per category and watch your spending in real time. Visual progress bars make it easy to see where you stand before the month ends.</p>
+        <div class="gallery gallery-2">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/budget.jpg" alt="Budget overview" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/categories.jpg" alt="Expense categories" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Credit Card -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">💳</div>
+          <h2>Credit Cards</h2>
+        </div>
+        <p>Track credit card balances and outstanding amounts separately from your cash accounts. Log payments and see exactly how much you owe at any time.</p>
+        <div class="gallery gallery-2">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/credit_card.jpg" alt="Credit card tracking" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/financial_statement.jpg" alt="Financial statement" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Debts -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">🤝</div>
+          <h2>Debt Management</h2>
+        </div>
+        <p>Keep track of money you've lent to others and amounts you've borrowed. Record repayments and see outstanding balances clearly separated.</p>
+        <div class="gallery gallery-2">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/lent.jpg" alt="Money lent" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/borrowed.jpg" alt="Money borrowed" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Scheduled Payments & Shopping -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">🗓️</div>
+          <h2>Scheduled Payments &amp; Shopping</h2>
+        </div>
+        <p>Never miss a recurring bill — schedule payments and receive reminders. Plan your grocery runs and purchases with the built-in shopping list.</p>
+        <div class="gallery gallery-2">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/scheduled_payments.jpg" alt="Scheduled payments" loading="lazy" />
+          </div>
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/shopping_list.jpg" alt="Shopping list" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Settings -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">⚙️</div>
+          <h2>Settings &amp; Data Control</h2>
+        </div>
+        <p>Customize the app to your preferences. Export an encrypted backup at any time and restore it on a new device — your data never leaves your hands.</p>
+        <div class="gallery gallery-2">
+          <div class="screenshot" onclick="openLightbox(this)">
+            <img src="/images/nummz/settings.jpg" alt="App settings" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Tech Stack -->
+      <div class="feature">
+        <div class="feature-header">
+          <div class="feature-icon">🛠️</div>
+          <h2>Built With</h2>
+        </div>
+        <p>nummz is built with React Native and Expo for a smooth cross-platform experience. All data is stored in a local SQLite database — no account required, no internet connection needed.</p>
+        <div class="tech-list">
+          <span class="tech-tag">React Native</span>
+          <span class="tech-tag">Expo</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">SQLite</span>
+          <span class="tech-tag">expo-sqlite</span>
+          <span class="tech-tag">expo-notifications</span>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>&copy; 2025 nenspace &nbsp;·&nbsp; <a href="/">Portfolio</a> &nbsp;·&nbsp; <a href="/privacy/nummz">Privacy Policy</a></p>
+    </footer>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <script>
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').alt = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>

@@ -58,9 +58,14 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; className: string }>
 
 function ProjectCard({ project }: { project: IProject }) {
   const status = STATUS_CONFIG[project.status];
+  const Wrapper = project.links.page ? "a" : "div";
+  const wrapperProps = project.links.page ? { href: project.links.page } : {};
 
   return (
-    <div className={`rounded-2xl p-px bg-gradient-to-br ${project.color} opacity-80 hover:opacity-100 transition-opacity duration-300`}>
+    <Wrapper
+      {...wrapperProps}
+      className={`rounded-2xl p-px bg-gradient-to-br ${project.color} opacity-80 hover:opacity-100 transition-opacity duration-300 ${project.links.page ? "cursor-pointer block" : ""}`}
+    >
       <div className="rounded-2xl bg-gray-50 dark:bg-[#0f0f18] p-6 h-full flex flex-col gap-5">
 
         {/* Header */}
@@ -124,6 +129,7 @@ function ProjectCard({ project }: { project: IProject }) {
             {project.links.privacy && (
               <a
                 href={project.links.privacy}
+                onClick={(e) => e.stopPropagation()}
                 className="text-xs text-gray-500 dark:text-gray-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colors underline underline-offset-2"
               >
                 Privacy Policy
@@ -132,6 +138,7 @@ function ProjectCard({ project }: { project: IProject }) {
             {project.links.docs && (
               <a
                 href={project.links.docs}
+                onClick={(e) => e.stopPropagation()}
                 className={`text-xs px-3 py-1.5 rounded-lg ${colors.background} ${colors.border} ${colors.borderHover} text-gray-600 dark:text-gray-400 font-medium transition-colors`}
               >
                 Docs
@@ -142,6 +149,7 @@ function ProjectCard({ project }: { project: IProject }) {
                 href={project.links.playStore}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 className="text-xs px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-400 text-white font-medium transition-colors"
               >
                 Play Store
@@ -150,7 +158,7 @@ function ProjectCard({ project }: { project: IProject }) {
           </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
 
