@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Setup Guide — ntrack</title>
+  <title>Integration Guide — ntrack</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -313,8 +313,8 @@
         <span>ntrack · Desktop Agent</span>
       </div>
 
-      <h1>Setup Guide</h1>
-      <p class="meta">How to install and connect ntrack to a nwork backend service</p>
+      <h1>Integration Guide</h1>
+      <p class="meta">How to install ntrack and connect it to any backend service</p>
     </header>
 
     <nav class="toc">
@@ -322,11 +322,11 @@
       <ol>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#requirements">Requirements</a></li>
-        <li><a href="#backend">Backend Setup</a></li>
+        <li><a href="#api">API Contract</a></li>
+        <li><a href="#backend">Backend Examples</a></li>
         <li><a href="#install">Installing ntrack</a></li>
         <li><a href="#configure">Configuration</a></li>
         <li><a href="#env-vars">Environment Variables</a></li>
-        <li><a href="#api">API Reference</a></li>
         <li><a href="#tray">Tray Menu</a></li>
         <li><a href="#build">Building from Source</a></li>
       </ol>
@@ -337,13 +337,14 @@
       <h2>Overview</h2>
       <p>
         ntrack is a lightweight system-tray agent that monitors which applications and browser tabs are active
-        on a desktop and periodically sends a daily summary to a <strong style="color: var(--text)">nwork</strong> backend.
+        on a desktop and periodically sends a daily activity summary to a backend service over HTTP.
         It is designed to run silently in the background with no user interaction required after initial setup.
       </p>
       <div class="info">
         <span class="info-icon">ℹ️</span>
-        <p>ntrack reports to <strong>nwork</strong> — an HR backend service. You must have a running nwork instance
-        and an API key generated from it before ntrack can send data.</p>
+        <p>ntrack is <strong>backend-agnostic</strong>. It sends a JSON payload to a single HTTP endpoint using an API key header.
+        Any backend — regardless of language or framework — can receive its data as long as it implements the
+        <a href="#api" style="color: var(--accent)">API contract</a> below.</p>
       </div>
       <p>What ntrack tracks per day:</p>
       <ul>
@@ -365,8 +366,8 @@
           <tbody>
             <tr><td>Python 3.11+</td><td>Only needed when running from source or building</td></tr>
             <tr><td>macOS, Windows, or Linux</td><td>All three platforms are supported</td></tr>
-            <tr><td>nwork backend</td><td>Running and reachable on the network</td></tr>
-            <tr><td>API key</td><td>Generated from nwork web app under <strong>API Keys</strong></td></tr>
+            <tr><td>A backend service</td><td>Any stack — must implement the <a href="#api" style="color: var(--accent)">API contract</a></td></tr>
+            <tr><td>API key</td><td>Any static secret string your backend uses to authenticate requests</td></tr>
           </tbody>
         </table>
       </div>
@@ -377,26 +378,146 @@
       </p>
     </section>
 
-    <!-- ── Backend Setup ── -->
+    <!-- ── API Contract ── -->
+    <section id="api">
+      <h2>API Contract</h2>
+      <p>
+        ntrack sends one HTTP request to your backend every <code>NTRACK_REPORT_INTERVAL</code> seconds (default: 60).
+        Your backend must implement this single endpoint.
+      </p>
+
+      <h3>POST /api/v1/activity/report</h3>
+      <p>Submits the day's activity snapshot for the authenticated user. Called repeatedly throughout the day — implement it as an <strong style="color: var(--text)">upsert</strong> keyed on <code>(user, date)</code> so repeated calls update rather than duplicate the record.</p>
+
+      <p><strong style="color: var(--text)">Authentication:</strong> ntrack sends the API key in the <code>X-Api-Key</code> request header. Your backend is responsible for validating it and resolving it to a user.</p>
+
+      <p><strong style="color: var(--text)">Request body:</strong></p>
+      <pre><code><span class="punct">{</span>
+  <span class="key">"date"</span><span class="punct">:</span>             <span class="str">"2026-04-11"</span><span class="punct">,</span>          <span class="comment">// required — ISO date (yyyy-MM-dd)</span>
+  <span class="key">"startTime"</span><span class="punct">:</span>        <span class="str">"2026-04-11T08:03:00"</span><span class="punct">,</span>  <span class="comment">// first active timestamp of the day</span>
+  <span class="key">"endTime"</span><span class="punct">:</span>          <span class="str">"2026-04-11T17:45:00"</span><span class="punct">,</span>  <span class="comment">// last active timestamp</span>
+  <span class="key">"activeMinutes"</span><span class="punct">:</span>    <span class="val">372</span><span class="punct">,</span>
+  <span class="key">"idleMinutes"</span><span class="punct">:</span>      <span class="val">88</span><span class="punct">,</span>
+  <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span>   <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span>          <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">210</span> <span class="punct">},</span>
+    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Chrome"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="str">"github.com"</span><span class="punct">,</span>  <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">62</span> <span class="punct">}</span>
+  <span class="punct">],</span>
+  <span class="key">"hourlyBreakdown"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span>
+      <span class="key">"hour"</span><span class="punct">:</span> <span class="val">9</span><span class="punct">,</span>
+      <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span> <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">45</span> <span class="punct">}</span> <span class="punct">]</span>
+    <span class="punct">}</span>
+  <span class="punct">],</span>
+  <span class="key">"sessions"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span>
+      <span class="key">"name"</span><span class="punct">:</span>  <span class="str">"Chrome"</span><span class="punct">,</span>
+      <span class="key">"tab"</span><span class="punct">:</span>   <span class="str">"github.com"</span><span class="punct">,</span>        <span class="comment">// null for non-browser apps</span>
+      <span class="key">"start"</span><span class="punct">:</span> <span class="str">"2026-04-11T09:15:00"</span><span class="punct">,</span>
+      <span class="key">"end"</span><span class="punct">:</span>   <span class="str">"2026-04-11T09:42:00"</span>
+    <span class="punct">}</span>
+  <span class="punct">]</span>
+<span class="punct">}</span></code></pre>
+
+      <p><strong style="color: var(--text)">Expected response</strong> — <code>200 OK</code> with any JSON body (ntrack ignores the body on success).</p>
+
+      <p><strong style="color: var(--text)">Error responses ntrack handles:</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><code>200</code></td><td>Report accepted — tray turns green</td></tr>
+            <tr><td><code>4xx</code> / <code>5xx</code></td><td>Report queued locally in SQLite and retried on the next interval</td></tr>
+            <tr><td>Network error</td><td>Same as above — tray turns red</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip">
+        <span class="info-icon">💡</span>
+        <p>All fields except <code>date</code> are optional. A minimal backend only needs to store <code>date</code>, <code>activeMinutes</code>, and <code>apps</code> to be useful.</p>
+      </div>
+    </section>
+
+    <!-- ── Backend Examples ── -->
     <section id="backend">
-      <h2>Backend Setup</h2>
-      <p>Before installing ntrack, make sure the nwork backend is running and you have an API key.</p>
+      <h2>Backend Examples</h2>
+      <p>Below are minimal examples of implementing the endpoint in common stacks. These are starting points — add persistence, authentication, and error handling to suit your needs.</p>
 
-      <h3>1. Start the nwork backend</h3>
-      <pre><code><span class="comment"># From the nwork-server directory</span>
-docker compose up -d          <span class="comment"># Start PostgreSQL</span>
-./mvnw spring-boot:run        <span class="comment"># Runs on http://localhost:8765</span></code></pre>
+      <h3>Node.js / Express</h3>
+      <pre><code><span class="kw">const</span> express = require(<span class="str">'express'</span>);
+<span class="kw">const</span> app = express();
+app.use(express.json());
 
-      <h3>2. Generate an API Key</h3>
-      <ol class="steps">
-        <li><p>Log in to the nwork web app as the employee who will run ntrack.</p></li>
-        <li><p>Navigate to <strong style="color: var(--text)">Profile → API Keys</strong> and click <strong style="color: var(--text)">Generate Key</strong>.</p></li>
-        <li><p>Copy the key — it will only be shown once.</p></li>
-      </ol>
+<span class="kw">const</span> API_KEYS = <span class="kw">new</span> Set([<span class="str">'your-secret-key'</span>]);
 
-      <div class="warn">
-        <span class="info-icon">⚠️</span>
-        <p>The API key authenticates as <strong>that specific employee</strong>. Each machine running ntrack should use the API key of the employee who works on it.</p>
+app.post(<span class="str">'/api/v1/activity/report'</span>, (req, res) => {
+  <span class="kw">const</span> key = req.headers[<span class="str">'x-api-key'</span>];
+  <span class="kw">if</span> (!API_KEYS.has(key)) <span class="kw">return</span> res.status(<span class="val">401</span>).json({ error: <span class="str">'Unauthorized'</span> });
+
+  <span class="kw">const</span> { date, activeMinutes, idleMinutes, apps, sessions } = req.body;
+  <span class="kw">if</span> (!date) <span class="kw">return</span> res.status(<span class="val">400</span>).json({ error: <span class="str">'date is required'</span> });
+
+  <span class="comment">// persist report here (DB upsert keyed on key + date)</span>
+  console.log(<span class="str">`Report for ${date}: ${activeMinutes} active mins`</span>);
+  res.json({ message: <span class="str">'Activity reported'</span> });
+});
+
+app.listen(<span class="val">8765</span>);</code></pre>
+
+      <h3>Python / FastAPI</h3>
+      <pre><code><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, Header, HTTPException
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> typing <span class="kw">import</span> Optional, List
+<span class="kw">from</span> datetime <span class="kw">import</span> date
+
+app = FastAPI()
+API_KEYS = {<span class="str">"your-secret-key"</span>}
+
+<span class="kw">class</span> AppUsage(BaseModel):
+    name: str
+    tab: Optional[str] = None
+    minutes: int
+
+<span class="kw">class</span> ActivityReport(BaseModel):
+    date: date
+    activeMinutes: Optional[int] = None
+    idleMinutes: Optional[int] = None
+    apps: Optional[List[AppUsage]] = []
+
+@app.post(<span class="str">"/api/v1/activity/report"</span>)
+<span class="kw">def</span> report(body: ActivityReport, x_api_key: str = Header(...)):
+    <span class="kw">if</span> x_api_key <span class="kw">not in</span> API_KEYS:
+        <span class="kw">raise</span> HTTPException(status_code=<span class="val">401</span>)
+    <span class="comment"># persist report here (upsert keyed on key + date)</span>
+    <span class="kw">return</span> {<span class="str">"message"</span>: <span class="str">"Activity reported"</span>}</code></pre>
+
+      <h3>Go / net/http</h3>
+      <pre><code><span class="kw">package</span> main
+
+<span class="kw">import</span> (
+    <span class="str">"encoding/json"</span>; <span class="str">"net/http"</span>
+)
+
+<span class="kw">var</span> apiKeys = map[string]bool{<span class="str">"your-secret-key"</span>: true}
+
+<span class="kw">func</span> reportHandler(w http.ResponseWriter, r *http.Request) {
+    <span class="kw">if</span> !apiKeys[r.Header.Get(<span class="str">"X-Api-Key"</span>)] {
+        http.Error(w, <span class="str">"Unauthorized"</span>, <span class="val">401</span>); <span class="kw">return</span>
+    }
+    <span class="kw">var</span> body map[string]any
+    json.NewDecoder(r.Body).Decode(&amp;body)
+    <span class="comment">// persist body["date"], body["activeMinutes"], body["apps"] ...</span>
+    json.NewEncoder(w).Encode(map[string]string{<span class="str">"message"</span>: <span class="str">"Activity reported"</span>})
+}
+
+<span class="kw">func</span> main() {
+    http.HandleFunc(<span class="str">"/api/v1/activity/report"</span>, reportHandler)
+    http.ListenAndServe(<span class="str">":8765"</span>, nil)
+}</code></pre>
+
+      <div class="tip">
+        <span class="info-icon">💡</span>
+        <p>The endpoint path <code>/api/v1/activity/report</code> is the default. If your backend uses a different path, set <code>NTRACK_API_URL</code> to the base URL and the path will be appended automatically — or point it directly to your server root and rename the route to match.</p>
       </div>
     </section>
 
@@ -511,77 +632,6 @@ python main.py</code></pre>
       </div>
     </section>
 
-    <!-- ── API Reference ── -->
-    <section id="api">
-      <h2>API Reference</h2>
-      <p>ntrack communicates with a single nwork endpoint.</p>
-
-      <h3>POST /api/v1/activity/report</h3>
-      <p>Submits the daily activity report for the authenticated employee. ntrack calls this every <code>NTRACK_REPORT_INTERVAL</code> seconds.</p>
-
-      <p><strong style="color: var(--text)">Authentication:</strong> <code>X-Api-Key: &lt;api-key&gt;</code> request header.</p>
-
-      <p><strong style="color: var(--text)">Request body:</strong></p>
-      <pre><code><span class="punct">{</span>
-  <span class="key">"date"</span><span class="punct">:</span>             <span class="str">"2026-04-11"</span><span class="punct">,</span>          <span class="comment">// required — ISO date (yyyy-MM-dd)</span>
-  <span class="key">"startTime"</span><span class="punct">:</span>        <span class="str">"2026-04-11T08:03:00"</span><span class="punct">,</span>  <span class="comment">// first active timestamp of the day</span>
-  <span class="key">"endTime"</span><span class="punct">:</span>          <span class="str">"2026-04-11T17:45:00"</span><span class="punct">,</span>  <span class="comment">// last active timestamp</span>
-  <span class="key">"activeMinutes"</span><span class="punct">:</span>    <span class="val">372</span><span class="punct">,</span>
-  <span class="key">"idleMinutes"</span><span class="punct">:</span>      <span class="val">88</span><span class="punct">,</span>
-  <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span>
-    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">210</span> <span class="punct">},</span>
-    <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Chrome"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="str">"github.com"</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">62</span> <span class="punct">}</span>
-  <span class="punct">],</span>
-  <span class="key">"hourlyBreakdown"</span><span class="punct">:</span> <span class="punct">[</span>
-    <span class="punct">{</span>
-      <span class="key">"hour"</span><span class="punct">:</span> <span class="val">9</span><span class="punct">,</span>
-      <span class="key">"apps"</span><span class="punct">:</span> <span class="punct">[</span>
-        <span class="punct">{</span> <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Code"</span><span class="punct">,</span> <span class="key">"tab"</span><span class="punct">:</span> <span class="val">null</span><span class="punct">,</span> <span class="key">"minutes"</span><span class="punct">:</span> <span class="val">45</span> <span class="punct">}</span>
-      <span class="punct">]</span>
-    <span class="punct">}</span>
-  <span class="punct">],</span>
-  <span class="key">"sessions"</span><span class="punct">:</span> <span class="punct">[</span>
-    <span class="punct">{</span>
-      <span class="key">"name"</span><span class="punct">:</span>  <span class="str">"Chrome"</span><span class="punct">,</span>
-      <span class="key">"tab"</span><span class="punct">:</span>   <span class="str">"github.com"</span><span class="punct">,</span>        <span class="comment">// null for non-browser apps</span>
-      <span class="key">"start"</span><span class="punct">:</span> <span class="str">"2026-04-11T09:15:00"</span><span class="punct">,</span>
-      <span class="key">"end"</span><span class="punct">:</span>   <span class="str">"2026-04-11T09:42:00"</span>
-    <span class="punct">}</span>
-  <span class="punct">]</span>
-<span class="punct">}</span></code></pre>
-
-      <p><strong style="color: var(--text)">Success response</strong> <code>200 OK</code>:</p>
-      <pre><code><span class="punct">{</span>
-  <span class="key">"data"</span><span class="punct">:</span> <span class="punct">{</span>
-    <span class="key">"id"</span><span class="punct">:</span> <span class="val">42</span><span class="punct">,</span>
-    <span class="key">"employeeId"</span><span class="punct">:</span> <span class="val">7</span><span class="punct">,</span>
-    <span class="key">"employeeName"</span><span class="punct">:</span> <span class="str">"Juan dela Cruz"</span><span class="punct">,</span>
-    <span class="key">"date"</span><span class="punct">:</span> <span class="str">"2026-04-11"</span><span class="punct">,</span>
-    <span class="key">"activeMinutes"</span><span class="punct">:</span> <span class="val">372</span><span class="punct">,</span>
-    <span class="key">"idleMinutes"</span><span class="punct">:</span> <span class="val">88</span><span class="punct">,</span>
-    <span class="comment">// ... apps, sessions, hourlyBreakdown echoed back</span>
-    <span class="key">"reportedAt"</span><span class="punct">:</span> <span class="str">"2026-04-11T17:45:02"</span>
-  <span class="punct">},</span>
-  <span class="key">"message"</span><span class="punct">:</span> <span class="str">"Activity reported"</span>
-<span class="punct">}</span></code></pre>
-
-      <p><strong style="color: var(--text)">Error responses:</strong></p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Status</th><th>Cause</th></tr></thead>
-          <tbody>
-            <tr><td><code>400</code></td><td><code>date</code> field missing or invalid format</td></tr>
-            <tr><td><code>401</code></td><td>Missing or invalid <code>X-Api-Key</code></td></tr>
-            <tr><td><code>403</code></td><td>Key exists but does not have reporting permission</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="tip">
-        <span class="info-icon">💡</span>
-        <p>If a report for the same <code>date</code> already exists, the backend <strong>upserts</strong> — it updates the existing record rather than creating a duplicate.</p>
-      </div>
-    </section>
 
     <!-- ── Tray ── -->
     <section id="tray">
