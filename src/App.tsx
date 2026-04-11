@@ -38,9 +38,27 @@ function ScrollToTop() {
   );
 }
 
+function ScrollToHash() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Element not yet rendered — wait for paint then retry
+      requestAnimationFrame(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }, []);
+  return null;
+}
+
 function App() {
   return (
     <ThemeProvider>
+      <ScrollToHash />
       <PixelBackground />
       <Navbar />
       <div className="content relative">
