@@ -65,8 +65,8 @@ function App() {
         <GlowField count={4} />
         <Hero />
         <Experience />
-        <TechStack />
         <Projects />
+        <TechStack />
         <Services />
         <CallToAction />
         <Footer />
