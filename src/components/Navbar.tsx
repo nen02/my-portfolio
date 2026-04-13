@@ -3,8 +3,8 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { label: "Experience", href: "#experience" },
-  { label: "Tech Stack", href: "#tech-stack" },
   { label: "Projects", href: "#projects" },
+  { label: "Tech Stack", href: "#tech-stack" },
   { label: "Services", href: "#services" },
   { label: "Contact", href: "#contact" },
 ];
@@ -89,7 +89,7 @@ function Navbar() {
       {/* Scroll progress bar */}
       <div className="absolute bottom-0 left-0 right-0 h-px">
         <div
-          className="h-full bg-purple-500 transition-all duration-75"
+          className="h-full bg-purple-500"
           style={{ width: `${progress}%` }}
         />
       </div>

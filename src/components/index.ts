@@ -1,4 +1,7 @@
+import About from "./About";
+import CursorSpotlight from "./CursorSpotlight";
 import Hero from "./Hero";
+import Stats from "./Stats";
 import TechStack from "./TechStack";
 import Services from "./Services";
 import Experience from "./Experience";
@@ -10,7 +13,10 @@ import { PixelBackground } from "./PixelBackground";
 import { ThemeToggle } from "./ThemeToggle";
 
 export {
+  About,
+  CursorSpotlight,
   Hero,
+  Stats,
   TechStack,
   Services,
   Experience,

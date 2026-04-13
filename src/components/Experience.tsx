@@ -14,7 +14,7 @@ function Experience() {
 
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-purple-300 dark:bg-purple-500/30" />
+          <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-purple-300 dark:from-purple-500/30 to-transparent" />
 
           {experience.map((exp) => (
             <div

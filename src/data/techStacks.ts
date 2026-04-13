@@ -46,11 +46,6 @@ const techStack: ITech[] = [
     name: "Django",
   },
   {
-    icon: "/svg/sass.svg",
-    key: "sass",
-    name: "Sass",
-  },
-  {
     icon: "/svg/git.svg",
     key: "git",
     name: "Git",
@@ -61,24 +56,9 @@ const techStack: ITech[] = [
     name: "MySQL",
   },
   {
-    icon: "/svg/graphql.svg",
-    key: "graphql",
-    name: "GraphQL",
-  },
-  {
-    icon: "/svg/kubernetes.svg",
-    key: "kubernetes",
-    name: "Kubernetes",
-  },
-  {
     icon: "/svg/tailwind.svg",
     key: "tailwind",
     name: "Tailwind CSS",
-  },
-  {
-    icon: "/svg/material-ui.svg",
-    key: "material-ui",
-    name: "Material UI",
   },
   {
     icon: "/svg/express.svg",
@@ -101,19 +81,9 @@ const techStack: ITech[] = [
     name: "PostgreSQL",
   },
   {
-    icon: "/svg/redux.svg",
-    key: "redux",
-    name: "Redux",
-  },
-  {
     icon: "/svg/typescript.svg",
     key: "typescript",
     name: "TypeScript",
-  },
-  {
-    icon: "/svg/unity.svg",
-    key: "unity",
-    name: "Unity",
   },
 ];
 

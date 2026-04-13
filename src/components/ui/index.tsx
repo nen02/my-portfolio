@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // ============================================================================
 // Design System Constants
@@ -152,10 +152,25 @@ interface SectionProps {
 }
 
 export function Section({ children, className = "", id = "" }: SectionProps) {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.08 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={ref}
       id={id}
-      className={`py-32 scroll-mt-16 relative overflow-hidden ${className}`}
+      className={`py-16 md:py-32 scroll-mt-16 relative overflow-hidden transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      } ${className}`}
     >
       {children}
     </section>
@@ -194,7 +209,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, subtitle }: SectionHeaderProps) {
   return (
-    <div className="text-center mb-20">
+    <div className="text-center mb-10 md:mb-20">
       <h2 className="text-4xl md:text-5xl font-bold mb-4">
         <span className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 dark:from-white dark:via-white dark:to-gray-400 bg-clip-text text-transparent">
           {title}
@@ -291,7 +306,7 @@ export function Terminal({
 }: TerminalProps) {
   return (
     <div
-      className={`rounded-xl overflow-hidden shadow-2xl border ${colors.border} w-96 flex-shrink-0 ${colors.background} ${className}`}
+      className={`rounded-xl overflow-hidden shadow-2xl border ${colors.border} w-full md:w-96 ${colors.background} ${className}`}
     >
       <div className="flex items-center gap-2 px-4 py-3 bg-gray-200 dark:bg-[#2d2d2d] border-b border-black/10 dark:border-white/10">
         <div className="flex gap-2">
@@ -330,7 +345,7 @@ export function CodeEditor({
 }: CodeEditorProps) {
   return (
     <div
-      className={`rounded-xl overflow-hidden shadow-2xl border ${colors.border} w-96 flex-shrink-0 -mt-4 relative z-10 ${colors.background} ${className}`}
+      className={`rounded-xl overflow-hidden shadow-2xl border ${colors.border} w-full md:w-96 -mt-4 relative z-10 ${colors.background} ${className}`}
     >
       <div className="flex items-center gap-2 px-4 py-3 bg-gray-100 dark:bg-[#1e1e2e] border-b border-black/10 dark:border-white/10">
         <div className="flex gap-2">

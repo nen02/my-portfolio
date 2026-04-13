@@ -56,7 +56,7 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; className: string }>
 // Project Card
 // ============================================================================
 
-function ProjectCard({ project }: { project: IProject }) {
+function FeaturedProjectCard({ project }: { project: IProject }) {
   const status = STATUS_CONFIG[project.status];
   const Wrapper = project.links.page ? "a" : "div";
   const wrapperProps = project.links.page ? { href: project.links.page } : {};
@@ -66,53 +66,33 @@ function ProjectCard({ project }: { project: IProject }) {
       {...wrapperProps}
       className={`rounded-2xl p-px bg-gradient-to-br ${project.color} opacity-80 hover:opacity-100 transition-opacity duration-300 ${project.links.page ? "cursor-pointer block" : ""}`}
     >
-      <div className="rounded-2xl bg-gray-50 dark:bg-[#0f0f18] p-6 h-full flex flex-col gap-5">
+      <div className="rounded-2xl bg-gray-50 dark:bg-[#0f0f18] p-6 md:p-8 flex flex-col md:flex-row gap-8">
 
-        {/* Header */}
-        <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-xl flex-shrink-0 overflow-hidden">
-            {project.icon ? (
-              <img src={project.icon} alt={`${project.name} icon`} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full rounded-xl bg-purple-500/20 flex items-center justify-center">
-                <span className="text-purple-400 font-bold text-xl">{project.name[0].toUpperCase()}</span>
-              </div>
-            )}
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white">{project.name}</h3>
-              <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${status.className}`}>
-                {status.label}
-              </span>
+        {/* Left */}
+        <div className="flex flex-col gap-5 md:w-1/2">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl flex-shrink-0 overflow-hidden">
+              {project.icon ? (
+                <img src={project.icon} alt={`${project.name} icon`} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full rounded-2xl bg-purple-500/20 flex items-center justify-center">
+                  <span className="text-purple-400 font-bold text-2xl">{project.name[0].toUpperCase()}</span>
+                </div>
+              )}
             </div>
-            <p className={`text-sm font-medium bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
-              {project.tagline}
-            </p>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">{project.name}</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${status.className}`}>
+                  {status.label}
+                </span>
+              </div>
+              <p className={`text-sm font-medium bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
+                {project.tagline}
+              </p>
+            </div>
           </div>
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
-          {project.description}
-        </p>
-
-        {/* Tech tags */}
-        <div className="flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className={`text-xs px-2.5 py-1 rounded-lg ${colors.background} ${colors.border} text-gray-600 dark:text-gray-400`}
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between pt-1 border-t border-gray-200 dark:border-white/5">
-          {/* Platforms */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {project.platforms.map((p) => (
               <span
                 key={p}
@@ -123,9 +103,22 @@ function ProjectCard({ project }: { project: IProject }) {
               </span>
             ))}
           </div>
+        </div>
 
-          {/* Links */}
-          <div className="flex items-center gap-2">
+        {/* Right */}
+        <div className="flex flex-col gap-5 md:w-1/2 md:border-l md:border-purple-500/10 md:pl-8">
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{project.description}</p>
+          <div className="flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span
+                key={t}
+                className={`text-xs px-2.5 py-1 rounded-lg ${colors.background} ${colors.border} text-gray-600 dark:text-gray-400`}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-white/5">
             {project.links.privacy && (
               <a
                 href={project.links.privacy}
@@ -139,7 +132,7 @@ function ProjectCard({ project }: { project: IProject }) {
               <a
                 href={project.links.docs}
                 onClick={(e) => e.stopPropagation()}
-                className={`text-xs px-3 py-1.5 rounded-lg ${colors.background} ${colors.border} ${colors.borderHover} text-gray-600 dark:text-gray-400 font-medium transition-colors`}
+                className={`text-xs px-4 py-2 rounded-lg ${colors.background} ${colors.border} ${colors.borderHover} text-gray-600 dark:text-gray-400 font-medium transition-colors`}
               >
                 Docs
               </a>
@@ -150,7 +143,7 @@ function ProjectCard({ project }: { project: IProject }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="text-xs px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-400 text-white font-medium transition-colors"
+                className="text-xs px-4 py-2 rounded-lg bg-purple-500 hover:bg-purple-400 text-white font-medium transition-colors"
               >
                 Play Store
               </a>
@@ -171,9 +164,9 @@ function Projects() {
     <Section id="projects">
       <Container>
         <SectionHeader title="Projects" subtitle="Things I've built" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col gap-6">
           {projects.map((project) => (
-            <ProjectCard key={project.key} project={project} />
+            <FeaturedProjectCard key={project.key} project={project} />
           ))}
         </div>
       </Container>

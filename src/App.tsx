@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import {
+  About,
   CallToAction,
+  CursorSpotlight,
   Experience,
   Footer,
   Hero,
@@ -8,6 +10,7 @@ import {
   PixelBackground,
   Projects,
   Services,
+  Stats,
   TechStack,
 } from "./components";
 import { GlowField } from "./components/ui";
@@ -59,11 +62,14 @@ function App() {
   return (
     <ThemeProvider>
       <ScrollToHash />
+      <CursorSpotlight />
       <PixelBackground />
       <Navbar />
       <div className="content relative">
         <GlowField count={4} />
         <Hero />
+        <About />
+        <Stats />
         <Experience />
         <Projects />
         <TechStack />

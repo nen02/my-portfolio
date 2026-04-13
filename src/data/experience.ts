@@ -8,6 +8,16 @@ type IExperience = {
 
 const experience: IExperience[] = [
   {
+    id: 0,
+    title: "Senior Software Engineer",
+    company: "Oracle NetSuite",
+    period: "May 2025 – Present",
+    description: [
+      "Working as a One Engineer — taking on both development and QA responsibilities across the product lifecycle.",
+      "Developing and maintaining NetSuite products using SuiteScript, Oracle's JavaScript-based scripting platform.",
+    ],
+  },
+  {
     id: 1,
     title: "Senior Software Developer",
     company: "Radztech Business Solutions",
@@ -18,17 +28,6 @@ const experience: IExperience[] = [
       "Automated government-mandated deductions and accounting system integration, increasing data accuracy and efficiency.",
       "Mentored and managed a team of 2 junior developers, ensuring high-quality project delivery through code reviews and sprint planning.",
       "Analyzed business requirements and collaborated with clients to deliver solutions tailored to their operational goals.",
-    ],
-  },
-  {
-    id: 2,
-    title: "Software Engineer (Part-Time)",
-    company: "Dory PH, Inc.",
-    period: "Sep 2024 – Oct 2024",
-    description: [
-      "Refactored codebases, reducing bugs and improving maintainability.",
-      "Optimized API usage, achieving an 80% reduction in operational costs.",
-      "Provided architectural recommendations, enhancing scalability and performance.",
     ],
   },
   {
@@ -49,28 +48,6 @@ const experience: IExperience[] = [
     description: [
       "Spearheaded the development of a Food Service Management System, improving order accuracy by 20%.",
       "Designed and deployed a HRIS, delivering user-friendly solutions that enhanced operational efficiency.",
-    ],
-  },
-  {
-    id: 5,
-    title: "Junior Web Developer",
-    company: "WebFocus Solutions",
-    period: "Jan 2019 – Aug 2019",
-    description: [
-      "Developed responsive websites using HTML, CSS, and JavaScript.",
-      "Collaborated with designers to implement pixel-perfect UI/UX.",
-      "Maintained and optimized existing web applications for performance.",
-    ],
-  },
-  {
-    id: 6,
-    title: "Freelance Developer",
-    company: "Self-Employed",
-    period: "2018 – 2019",
-    description: [
-      "Built custom web solutions for small businesses.",
-      "Managed client relationships and project timelines.",
-      "Delivered projects on time and within budget.",
     ],
   },
 ];
