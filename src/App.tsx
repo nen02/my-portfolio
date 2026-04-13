@@ -65,7 +65,7 @@ function App() {
       <CursorSpotlight />
       <PixelBackground />
       <Navbar />
-      <div className="content relative">
+      <div className="content relative overflow-hidden">
         <GlowField count={4} />
         <Hero />
         <About />

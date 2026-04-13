@@ -16,7 +16,7 @@ function About() {
           </div>
 
           {/* Main heading */}
-          <h2 className="text-3xl md:text-5xl font-bold leading-tight">
+          <h2 className="text-2xl md:text-5xl font-bold leading-tight">
             <span className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 dark:from-white dark:via-white dark:to-gray-400 bg-clip-text text-transparent">
               Not the path I chose,
             </span>
@@ -27,7 +27,7 @@ function About() {
           </h2>
 
           {/* Story */}
-          <div className="flex flex-col gap-6 text-left max-w-2xl">
+          <div className="flex flex-col gap-6 text-left w-full max-w-2xl">
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               Growing up, I dreamed of studying mechanical engineering. But we didn't have
               the money for it, so I enrolled in Computer Science instead — a field I knew

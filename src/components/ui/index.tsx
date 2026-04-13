@@ -168,8 +168,8 @@ export function Section({ children, className = "", id = "" }: SectionProps) {
     <section
       ref={ref}
       id={id}
-      className={`py-16 md:py-32 scroll-mt-16 relative overflow-hidden transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      className={`py-16 md:py-32 scroll-mt-16 relative overflow-hidden transition-opacity duration-700 ease-out ${
+        visible ? "opacity-100" : "opacity-0"
       } ${className}`}
     >
       {children}

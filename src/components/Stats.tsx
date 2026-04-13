@@ -35,7 +35,7 @@ function StatItem({ value, suffix, label, active }: { value: number; suffix: str
 
   return (
     <div className="flex flex-col items-center gap-2 text-center">
-      <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 dark:from-purple-400 dark:via-violet-400 dark:to-purple-500 bg-clip-text text-transparent tabular-nums">
+      <span className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 dark:from-purple-400 dark:via-violet-400 dark:to-purple-500 bg-clip-text text-transparent tabular-nums">
         {count.toLocaleString()}{suffix}
       </span>
       <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{label}</span>
@@ -59,7 +59,7 @@ function Stats() {
   return (
     <div ref={ref} className="py-10 md:py-16">
       <Container>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 p-8 rounded-2xl bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 md:p-8 rounded-2xl bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30">
           {stats.map((stat) => (
             <StatItem key={stat.label} {...stat} active={active} />
           ))}
