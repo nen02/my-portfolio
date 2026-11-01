@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 function CursorSpotlight() {
   const [pos, setPos] = useState({ x: -999, y: -999 });
   const [active, setActive] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (reducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
 
     const move = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
@@ -19,7 +21,9 @@ function CursorSpotlight() {
       window.removeEventListener("mousemove", move);
       document.documentElement.removeEventListener("mouseleave", leave);
     };
-  }, []);
+  }, [reducedMotion]);
+
+  if (reducedMotion) return null;
 
   return (
     <div

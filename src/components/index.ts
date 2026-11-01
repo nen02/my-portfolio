@@ -1,29 +1,27 @@
 import About from "./About";
+import Contact from "./Contact";
 import CursorSpotlight from "./CursorSpotlight";
-import Hero from "./Hero";
-import Stats from "./Stats";
-import TechStack from "./TechStack";
-import Services from "./Services";
 import Experience from "./Experience";
-import Projects from "./Projects";
-import CallToAction from "./CallToAction";
 import Footer from "./Footer";
+import Hero from "./Hero";
 import Navbar from "./Navbar";
+import Projects from "./projects/Projects";
+import Skills from "./Skills";
+import Stats from "./Stats";
 import { PixelBackground } from "./PixelBackground";
 import { ThemeToggle } from "./ThemeToggle";
 
 export {
   About,
+  Contact,
   CursorSpotlight,
-  Hero,
-  Stats,
-  TechStack,
-  Services,
   Experience,
-  Projects,
-  CallToAction,
   Footer,
+  Hero,
   Navbar,
   PixelBackground,
+  Projects,
+  Skills,
+  Stats,
   ThemeToggle,
 };

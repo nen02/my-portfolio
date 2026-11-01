@@ -1,56 +1,41 @@
-import { Section, Container } from "./ui";
+import about from "../data/about";
+import projects from "../data/projects";
+import { Section, Container, Emphasis, text } from "./ui";
+
+/** "A, B and C" — the site's list style, without a serial comma. */
+function joinNames(names: string[]): string {
+  if (names.length < 2) return names.join("");
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}
+
+const projectNames = joinNames(projects.map((project) => project.name));
 
 function About() {
   return (
     <Section id="about">
-      <Container maxWidth="4xl">
-        <div className="flex flex-col items-center text-center gap-10">
-
-          {/* Section label */}
-          <div className="flex items-center gap-3">
-            <div className="h-px w-8 bg-purple-500/50" />
-            <span className="text-purple-500 dark:text-purple-400 text-sm font-medium tracking-widest uppercase">
-              About Me
-            </span>
-            <div className="h-px w-8 bg-purple-500/50" />
-          </div>
-
-          {/* Main heading */}
-          <h2 className="text-2xl md:text-5xl font-bold leading-tight">
-            <span className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 dark:from-white dark:via-white dark:to-gray-400 bg-clip-text text-transparent">
-              Not the path I chose,
-            </span>
+      <Container className="grid md:grid-cols-[1fr_1.4fr] gap-10 md:gap-16">
+        <div>
+          <p className={`${text.eyebrow} mb-3`}>{about.eyebrow}</p>
+          <h2 className={`text-3xl md:text-4xl font-bold leading-tight text-balance ${text.heading}`}>
+            {about.heading}
             <br />
-            <span className="bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 dark:from-purple-400 dark:via-violet-400 dark:to-purple-500 bg-clip-text text-transparent">
-              but the one I owned.
-            </span>
+            <span className={text.accent}>{about.headingAccent}</span>
           </h2>
+        </div>
 
-          {/* Story */}
-          <div className="flex flex-col gap-6 text-left w-full max-w-2xl">
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Growing up, I dreamed of studying mechanical engineering. But we didn't have
-              the money for it, so I enrolled in Computer Science instead — a field I knew
-              absolutely nothing about. No background in programming, no idea how any of
-              it worked. Just a decision made out of necessity, and eventually, a passion
-              I never expected.
+        <div className={`space-y-5 leading-relaxed text-[17px] ${text.body}`}>
+          {about.paragraphs.map((paragraph) => (
+            <p key={paragraph}>
+              <Emphasis>{paragraph}</Emphasis>
             </p>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              What I've come to love most is the architectural side of the craft — designing
-              database structures, optimizing processes, and building interfaces that feel
-              natural to use. But above all, what drives me is making software that actually
-              solves something. Not just code that runs, but products that make a difference.
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Outside of work, I build my own apps — like{" "}
-              <span className="text-purple-500 dark:text-purple-400 font-medium">nummz</span>{" "}
-              and{" "}
-              <span className="text-purple-500 dark:text-purple-400 font-medium">ntrack</span>{" "}
-              — and keep pushing my skills forward. I think the best developers are the ones
-              who never stop learning.
-            </p>
-          </div>
-
+          ))}
+          <p>
+            {about.sideProjects.lead}{" "}
+            <a href="#projects" className={`font-medium hover:underline ${text.accent}`}>
+              {projectNames}
+            </a>{" "}
+            {about.sideProjects.trail}
+          </p>
         </div>
       </Container>
     </Section>

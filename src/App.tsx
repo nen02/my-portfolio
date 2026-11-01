@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   About,
-  CallToAction,
+  Contact,
   CursorSpotlight,
   Experience,
   Footer,
@@ -9,9 +9,8 @@ import {
   Navbar,
   PixelBackground,
   Projects,
-  Services,
+  Skills,
   Stats,
-  TechStack,
 } from "./components";
 import { GlowField } from "./components/ui";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -68,13 +67,12 @@ function App() {
       <div className="content relative overflow-hidden">
         <GlowField count={4} />
         <Hero />
-        <About />
         <Stats />
+        <About />
         <Experience />
         <Projects />
-        <TechStack />
-        <Services />
-        <CallToAction />
+        <Skills />
+        <Contact />
         <Footer />
       </div>
       <ScrollToTop />

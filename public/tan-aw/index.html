@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tan-aw — Moments pinned to places</title>
+  <meta name="description" content="Tan-aw is a map-first social app: share photos and moments pinned to places and explore friends' moments on a playful, custom-styled map." />
+  <link rel="icon" href="/tan-aw-icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script>
+    // Follow the portfolio's theme toggle (same "theme" key), else the OS setting.
+    (function () {
+      var root = document.documentElement;
+      var query = window.matchMedia("(prefers-color-scheme: dark)");
+      function savedTheme() {
+        try { return localStorage.getItem("theme"); } catch (e) { return null; }
+      }
+      function apply() {
+        root.dataset.theme = savedTheme() || (query.matches ? "dark" : "light");
+      }
+      apply();
+      query.addEventListener("change", apply);
+      window.addEventListener("storage", apply);
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Tan-aw's day and night palettes (mobile/src/theme/colors.ts) */
+    :root {
+      color-scheme: light;
+      --bg: #F2FAF8;
+      --surface: #FFFFFF;
+      --border: #D5E5E0;
+      --ink: #10303A;
+      --ink-muted: #5B7480;
+      --outline: #10303A;
+      --primary: #0FA3A3;
+      --primary-strong: #0B7A7A;
+      --lime: #A3E635;
+      --on-lime: #10303A;
+      --highlight: #D9F2EF;
+      --sticker-border: 2.5px solid var(--outline);
+      --sticker-shadow: 4px 4px 0 var(--outline);
+      --radius: 20px;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0F2A33;
+      --surface: #163842;
+      --border: #24505C;
+      --ink: #F2FAF8;
+      --ink-muted: #9DB8C1;
+      --outline: #061419;
+      --primary: #2CC5C0;
+      --primary-strong: #86AE66;
+      --lime: #86AE66;
+      --on-lime: #10303A;
+      --highlight: #1E4450;
+    }
+
+    /* Art drawn for one palette: the logo and app icon have night versions. */
+    :root:not([data-theme="dark"]) .night-only,
+    [data-theme="dark"] .day-only { display: none; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { font-family: "Fredoka", sans-serif; font-weight: 600; line-height: 1.2; }
+
+    .wrapper { max-width: 960px; margin: 0 auto; padding: 48px 24px 96px; }
+
+    /* ── Header ── */
+    .header-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 48px; }
+
+    .app-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--surface); border: var(--sticker-border); border-radius: 14px;
+      padding: 6px 14px 6px 6px; box-shadow: 3px 3px 0 var(--outline);
+      font-family: "Fredoka", sans-serif; font-weight: 500; font-size: 14px; white-space: nowrap;
+    }
+    .app-badge img { width: 28px; height: 28px; border-radius: 8px; }
+
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--primary-strong); font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap;
+    }
+    .back:hover { text-decoration: underline; }
+
+    /* ── Hero ── */
+    .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; margin-bottom: 72px; }
+    .hero-logo { width: 100%; max-width: 360px; height: auto; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(28px, 4vw, 40px); margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: var(--ink-muted); max-width: 480px; }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge {
+      font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 999px;
+      background: var(--surface); border: 2px solid var(--outline);
+    }
+    .badge-status { background: var(--lime); color: var(--on-lime); }
+
+    .hero-art {
+      max-width: 320px; width: 100%; justify-self: center;
+      border: var(--sticker-border); border-radius: 22%; box-shadow: 6px 6px 0 var(--outline);
+      overflow: hidden; transform: rotate(3deg);
+    }
+    .hero-art img { display: block; width: 100%; height: auto; }
+
+    /* ── Features ── */
+    .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 72px; }
+    .card {
+      background: var(--surface); border: var(--sticker-border); border-radius: var(--radius);
+      box-shadow: var(--sticker-shadow); padding: 28px;
+    }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+      background: var(--highlight); border: 2px solid var(--outline); font-size: 24px; margin-bottom: 16px;
+    }
+    .card h2 { font-size: 22px; margin-bottom: 8px; }
+    .card p { color: var(--ink-muted); }
+    .card ul { margin-top: 12px; padding-left: 0; list-style: none; display: grid; gap: 6px; }
+    .card li { position: relative; padding-left: 22px; color: var(--ink-muted); }
+    .card li::before {
+      content: ""; position: absolute; left: 2px; top: 9px; width: 10px; height: 10px;
+      border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+      background: var(--lime); border: 1.5px solid var(--outline);
+    }
+
+    /* ── Meet Bo ── */
+    .bo { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; align-items: center; margin-bottom: 72px; }
+    .bo h2 { font-size: 30px; margin-bottom: 10px; }
+    .bo p { color: var(--ink-muted); font-size: 17px; }
+    .bo p + p { margin-top: 12px; }
+    .bo-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
+      background: var(--surface); border: var(--sticker-border); border-radius: var(--radius);
+      box-shadow: var(--sticker-shadow); padding: 18px;
+    }
+    .bo-grid img { width: 100%; height: auto; transition: transform 0.2s ease; }
+    .bo-grid img:hover { transform: translateY(-4px) rotate(-4deg); }
+
+    /* ── Under the hood ── */
+    .stack h2 { font-size: 30px; margin-bottom: 20px; }
+    .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .stack h3 { font-size: 18px; margin-bottom: 12px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 10px;
+      background: var(--highlight); border: 1.5px solid var(--outline);
+    }
+
+    footer { margin-top: 72px; text-align: center; color: var(--ink-muted); font-size: 14px; }
+    footer img { width: 120px; display: block; margin: 0 auto 8px; }
+
+    @media (max-width: 760px) {
+      .hero, .bo, .features, .stack-grid { grid-template-columns: 1fr; }
+      .hero-art { max-width: 260px; grid-row: 1; }
+      .bo-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bo-grid img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header class="header-top">
+      <div class="app-badge">
+        <img src="/tan-aw-icon.png" alt="" />
+        Tan-aw · Mobile App
+      </div>
+      <a class="back" href="/#projects">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to portfolio
+      </a>
+    </header>
+
+    <section class="hero">
+      <div>
+        <img class="hero-logo day-only" src="/images/tan-aw/logo.svg" alt="Tan-aw" />
+        <img class="hero-logo night-only" src="/images/tan-aw/logo-night.svg" alt="Tan-aw" />
+        <h1>Moments, pinned to places.</h1>
+        <p>A map-first social app. Share photos and little moments where they happened, and explore your friends' moments on a cute, custom-styled map. The name is Filipino for "to look".</p>
+        <div class="badges">
+          <span class="badge">iOS first</span>
+          <span class="badge">Android next</span>
+          <span class="badge badge-status">In Development</span>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img class="day-only" src="/images/tan-aw/icon-large.png" alt="The Tan-aw app icon: Bo peeking over a hill" />
+        <img class="night-only" src="/images/tan-aw/icon-large-night.png" alt="The Tan-aw app icon at night: Bo peeking over a hill under the moon" />
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <h2>The map is the product</h2>
+        <p>Not a feed with a map bolted on. Everything starts on a custom "Lagoon Vivid" map style.</p>
+        <ul>
+          <li>Moments show up as Bo emoji pins that cluster as you zoom out</li>
+          <li>Moments at the same spot open into a ring of pins</li>
+          <li>Tappable landmarks: parks, malls, museums, stations</li>
+          <li>A day map and a softer night map</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📸</div>
+        <h2>Share a moment</h2>
+        <p>A two-step composer: pick photos and an emoji, then pin it.</p>
+        <ul>
+          <li>Up to 4 photos from your library or camera</li>
+          <li>Name a real place from the search, or type your own</li>
+          <li>On the map for 24 hours, then it lives on your profile</li>
+          <li>You choose who sees it: everyone, friends or only you</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">👋</div>
+        <h2>Friends &amp; following</h2>
+        <p>Keep up with people you know, and follow the ones you don't.</p>
+        <ul>
+          <li>A circles strip shows who has moments on the map right now</li>
+          <li>Mutual friends, plus one-way follows for public moments</li>
+          <li>Likes, comments and replies, all collected in Activity</li>
+          <li>People you may know, never suggested from your location</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h2>Private by design</h2>
+        <p>A map app that's careful about where you are.</p>
+        <ul>
+          <li>Approximate location, used only to move the camera</li>
+          <li>Photo location data (EXIF/GPS) stripped on upload</li>
+          <li>Exact spots stay visible only to whoever posted them</li>
+          <li>Quiet blocking, reporting and a 30-day account undo</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="bo">
+      <div>
+        <h2>Meet Bo 👀</h2>
+        <p>Bo is the pal: a round, lagoon-teal character who peeks over things (the name comes from peek-a-boo).</p>
+        <p>Bo is the app icon, the logo and every emoji: 13 faces and 14 activities, all drawn in code and animated with Reanimated. On the map, Bo hides behind bushes in parks and pops out to say hi when tapped.</p>
+      </div>
+      <div class="bo-grid">
+        <img src="/images/tan-aw/bo/hi.png" alt="Bo waving hi" />
+        <img src="/images/tan-aw/bo/happy.png" alt="Bo happy" />
+        <img src="/images/tan-aw/bo/love.png" alt="Bo in love" />
+        <img src="/images/tan-aw/bo/haha.png" alt="Bo laughing" />
+        <img src="/images/tan-aw/bo/wow.png" alt="Bo amazed" />
+        <img src="/images/tan-aw/bo/cool.png" alt="Bo in sunglasses" />
+        <img src="/images/tan-aw/bo/shy.png" alt="Bo shy" />
+        <img src="/images/tan-aw/bo/wink.png" alt="Bo winking" />
+        <img src="/images/tan-aw/bo/coffee.png" alt="Bo in a coffee cup" />
+        <img src="/images/tan-aw/bo/food.png" alt="Bo eating" />
+        <img src="/images/tan-aw/bo/beach.png" alt="Bo at the beach" />
+        <img src="/images/tan-aw/bo/cycling.png" alt="Bo cycling" />
+        <img src="/images/tan-aw/bo/music.png" alt="Bo listening to music" />
+        <img src="/images/tan-aw/bo/reading.png" alt="Bo reading" />
+        <img src="/images/tan-aw/bo/sunset.png" alt="Bo watching the sunset" />
+        <img src="/images/tan-aw/bo/celebrate.png" alt="Bo celebrating" />
+        <img src="/images/tan-aw/bo/party.png" alt="Bo partying" />
+        <img src="/images/tan-aw/bo/nature.png" alt="Bo in nature" />
+      </div>
+    </section>
+
+    <section class="stack">
+      <h2>Under the hood</h2>
+      <div class="stack-grid">
+        <div class="card">
+          <h3>Mobile</h3>
+          <div class="chips">
+            <span class="chip">Expo SDK 58</span>
+            <span class="chip">React Native 0.88</span>
+            <span class="chip">New Architecture</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">MapLibre</span>
+            <span class="chip">Reanimated</span>
+            <span class="chip">Expo Router</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Backend</h3>
+          <div class="chips">
+            <span class="chip">Java 25</span>
+            <span class="chip">Spring Boot 4</span>
+            <span class="chip">PostgreSQL + PostGIS</span>
+            <span class="chip">JWT + rotating refresh</span>
+            <span class="chip">S3 signed uploads</span>
+            <span class="chip">Flyway</span>
+            <span class="chip">Testcontainers</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <img src="/images/tan-aw/pal-hi.png" alt="" />
+      Made by <a class="back" href="/">Renen Rivera</a>
+    </footer>
+
+  </div>
+</body>
+</html>

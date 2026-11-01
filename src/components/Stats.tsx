@@ -1,67 +1,64 @@
-import { useState, useEffect, useRef } from "react";
-import { Container } from "./ui";
+import { useState, useEffect } from "react";
+import stats, { IStat } from "../data/stats";
+import { useInView } from "../hooks/useInView";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+import { Container, surface, text } from "./ui";
 
-const stats = [
-  { value: 6, suffix: "+", label: "Years of Experience" },
-  { value: 10, suffix: "+", label: "Companies Served" },
-  { value: 2000, suffix: "+", label: "Employees Impacted" },
-  { value: 90, suffix: "%", label: "Processes Automated" },
-];
+const COUNT_DURATION_MS = 1200;
+const FRAME_MS = 16;
+const IN_VIEW_OPTIONS: IntersectionObserverInit = { threshold: 0.4 };
 
-function useCountUp(target: number, duration: number, active: boolean) {
-  const [count, setCount] = useState(0);
+function useCountUp(target: number, active: boolean, instant: boolean) {
+  const [count, setCount] = useState(instant ? target : 0);
 
   useEffect(() => {
+    if (instant) {
+      setCount(target);
+      return;
+    }
     if (!active) return;
-    let start = 0;
-    const step = target / (duration / 16);
+    let current = 0;
+    const step = target / (COUNT_DURATION_MS / FRAME_MS);
     const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
+      current += step;
+      if (current >= target) {
         setCount(target);
         clearInterval(timer);
       } else {
-        setCount(Math.floor(start));
+        setCount(Math.floor(current));
       }
-    }, 16);
+    }, FRAME_MS);
     return () => clearInterval(timer);
-  }, [active, target, duration]);
+  }, [active, target, instant]);
 
   return count;
 }
 
-function StatItem({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
-  const count = useCountUp(value, 1200, active);
+function StatItem({ stat, active, instant }: { stat: IStat; active: boolean; instant: boolean }) {
+  const count = useCountUp(stat.value, active, instant);
 
   return (
-    <div className="flex flex-col items-center gap-2 text-center">
-      <span className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 dark:from-purple-400 dark:via-violet-400 dark:to-purple-500 bg-clip-text text-transparent tabular-nums">
-        {count.toLocaleString()}{suffix}
-      </span>
-      <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{label}</span>
+    <div className="p-6 text-center bg-light-bg dark:bg-ink-900">
+      <div className={`font-display text-3xl md:text-4xl font-bold tabular-nums ${text.accent}`}>
+        {count.toLocaleString()}
+        {stat.suffix}
+      </div>
+      <div className={`text-sm mt-1 ${text.muted}`}>{stat.label}</div>
     </div>
   );
 }
 
 function Stats() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setActive(true); },
-      { threshold: 0.4 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, inView } = useInView<HTMLDivElement>(IN_VIEW_OPTIONS);
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div ref={ref} className="py-10 md:py-16">
+    <div ref={ref} className="relative -mt-6">
       <Container>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 md:p-8 rounded-2xl bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30">
+        {/* gap-px over a tinted background draws the cell dividers */}
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden bg-gray-200 dark:bg-white/10 ${surface.outline}`}>
           {stats.map((stat) => (
-            <StatItem key={stat.label} {...stat} active={active} />
+            <StatItem key={stat.label} stat={stat} active={inView} instant={reducedMotion} />
           ))}
         </div>
       </Container>

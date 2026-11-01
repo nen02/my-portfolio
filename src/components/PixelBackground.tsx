@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 interface Pixel {
   x: number;
@@ -31,8 +32,10 @@ function makePixel(w: number, h: number, randomY = false): Pixel {
 
 export function PixelBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (reducedMotion) return;
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
     let raf: number;
@@ -95,7 +98,9 @@ export function PixelBackground() {
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, []);
+  }, [reducedMotion]);
+
+  if (reducedMotion) return null;
 
   return (
     <canvas

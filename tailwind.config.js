@@ -11,9 +11,16 @@ export default {
           text: "#1a1a2e",
           border: "#e9ecef",
         },
+        ink: {
+          900: "#0a0a0a",
+          800: "#111018",
+          700: "#14121c",
+          terminal: "#0d1512",
+        },
       },
       fontFamily: {
-        sans: ["Chakra Petch", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+        display: ["Chakra Petch", "sans-serif"],
       },
       animation: {
         gradient: "gradient 3s linear infinite",

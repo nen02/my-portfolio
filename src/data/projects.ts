@@ -1,5 +1,13 @@
 export type ProjectStatus = "released" | "beta" | "in-development";
 export type ProjectPlatform = "android" | "ios" | "web" | "desktop";
+export type ProjectAccent = "teal" | "violet" | "emerald";
+
+type MediaImage = { src: string; alt: string };
+
+export type ProjectMedia =
+  | { type: "screenshots"; images: MediaImage[] }
+  | { type: "stickers"; images: MediaImage[] }
+  | { type: "illustration"; variant: "terminal" };
 
 export interface IProject {
   key: string;
@@ -18,42 +26,78 @@ export interface IProject {
     docs?: string;
     page?: string;
   };
-  color: string;
+  accent: ProjectAccent;
   icon?: string;
+  media?: ProjectMedia;
 }
 
 const projects: IProject[] = [
   {
-    key: "ntrack",
-    name: "ntrack",
-    tagline: "Desktop Activity Tracker",
+    key: "tan-aw",
+    name: "Tan-aw",
+    tagline: "Map-first social app",
     description:
-      "A system-tray agent that silently tracks active window usage and sends daily activity reports to the nwork backend. Runs on macOS, Windows, and Linux.",
-    platforms: ["desktop"],
-    tech: ["Python", "SQLite", "psutil", "pystray"],
-    status: "released",
+      "Share photos and moments pinned to places, and explore friends' moments on a playful, custom-styled map. Named after the Filipino word for \"to look\".",
+    platforms: ["ios", "android"],
+    tech: ["React Native", "Expo", "MapLibre", "Spring Boot", "PostGIS"],
+    status: "in-development",
     links: {
-      github: "https://github.com/nen02/ntrack-app",
-      docs: "/docs/ntrack",
+      page: "/tan-aw",
     },
-    color: "from-emerald-500 to-teal-600",
-    icon: "/ntrack-icon.png",
+    accent: "teal",
+    icon: "/tan-aw-icon.png",
+    media: {
+      type: "stickers",
+      images: [
+        { src: "/images/tan-aw/bo/hi.png", alt: "Bo waving hi" },
+        { src: "/images/tan-aw/bo/coffee.png", alt: "Bo in a coffee cup" },
+        { src: "/images/tan-aw/bo/beach.png", alt: "Bo at the beach" },
+        { src: "/images/tan-aw/bo/celebrate.png", alt: "Bo celebrating" },
+        { src: "/images/tan-aw/bo/cycling.png", alt: "Bo cycling" },
+        { src: "/images/tan-aw/bo/love.png", alt: "Bo in love" },
+      ],
+    },
   },
   {
     key: "nummz",
     name: "nummz",
     tagline: "Personal Finance Manager",
     description:
-      "A mobile app for tracking expenses, managing budgets, monitoring debts, and planning finances — all stored locally on your device.",
-    platforms: ["android", "ios"],
+      "Track expenses, budgets and debts — fully offline, with all data stored locally on your device.",
+    platforms: ["android"],
     tech: ["React Native", "Expo", "SQLite", "TypeScript"],
-    status: "in-development",
+    status: "released",
     links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.nenspace.nummz",
       page: "/nummz",
       privacy: "/privacy/nummz",
     },
-    color: "from-violet-500 to-purple-600",
+    accent: "violet",
     icon: "/nummz-icon.png",
+    media: {
+      type: "screenshots",
+      images: [
+        { src: "/images/nummz/dashboard_1.jpg", alt: "nummz dashboard screen" },
+        { src: "/images/nummz/budget.jpg", alt: "nummz budget screen" },
+        { src: "/images/nummz/credit_card.jpg", alt: "nummz credit card screen" },
+      ],
+    },
+  },
+  {
+    key: "ntrack",
+    name: "ntrack",
+    tagline: "Desktop Activity Tracker",
+    description:
+      "A system-tray agent that tracks active-window usage and sends daily activity reports to any backend you connect it to.",
+    platforms: ["desktop"],
+    tech: ["Python", "SQLite", "psutil", "pystray"],
+    status: "released",
+    links: {
+      docs: "/docs/ntrack",
+    },
+    accent: "emerald",
+    icon: "/ntrack-icon.png",
+    media: { type: "illustration", variant: "terminal" },
   },
 ];
 

@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/((?!docs|privacy|nummz).*)",
+      "source": "/((?!docs|privacy|nummz|tan-aw).*)",
       "destination": "/index.html"
     }
   ]

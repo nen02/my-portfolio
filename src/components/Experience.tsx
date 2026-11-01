@@ -1,59 +1,82 @@
-import experience from "../data/experience";
-import { Section, Container, SectionHeader } from "./ui";
+import experience, { IExperience } from "../data/experience";
+import { Section, Container, SectionHeader, TagList, text } from "./ui";
 
-// ============================================================================
-// Experience Component
-// ============================================================================
+function TimelineDot({ current }: { current: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`absolute left-0 -translate-x-1/2 top-1.5 w-3.5 h-3.5 rounded-full ${
+        current ? "bg-purple-500 ring-4 ring-purple-500/20" : "bg-purple-500/50"
+      }`}
+    />
+  );
+}
+
+/** Runs from below this item's dot to just above the next one, so it never crosses a dot. */
+function TimelineConnector() {
+  return (
+    <span
+      aria-hidden
+      className="absolute left-0 -translate-x-1/2 w-px top-[1.625rem] -bottom-10 bg-purple-500/25"
+    />
+  );
+}
+
+function ExperienceItem({
+  role,
+  current,
+  last,
+}: {
+  role: IExperience;
+  current: boolean;
+  last: boolean;
+}) {
+  return (
+    <li className="pl-8 relative">
+      {!last && <TimelineConnector />}
+      <TimelineDot current={current} />
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 className={`font-bold ${role.compact ? "text-lg" : "text-xl"} ${text.heading}`}>
+          {role.title} · <span className="text-purple-500">{role.company}</span>
+        </h3>
+        <span className={`text-sm font-medium ${text.muted}`}>{role.period}</span>
+      </div>
+
+      {role.compact ? (
+        <p className={`mt-2 text-[15px] leading-relaxed ${text.body}`}>{role.description.join(" ")}</p>
+      ) : (
+        <ul className={`mt-3 space-y-2 text-[15px] leading-relaxed list-disc pl-5 marker:text-purple-500 ${text.body}`}>
+          {role.description.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+
+      {role.tech.length > 0 && (
+        <div className="mt-3">
+          <TagList items={role.tech} variant="accent" />
+        </div>
+      )}
+    </li>
+  );
+}
 
 function Experience() {
   return (
-    <Section id="experience">
-
+    <Section id="experience" bordered>
       <Container maxWidth="4xl">
-        <SectionHeader title="Experience" subtitle="My professional journey" />
-
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-purple-300 dark:from-purple-500/30 to-transparent" />
-
-          {experience.map((exp) => (
-            <div
-              key={exp.id}
-              className="relative flex flex-col md:flex-row items-start mb-8 md:mb-12 last:mb-0 md:gap-8 pl-10 md:pl-0"
-            >
-              {/* Dot on the line */}
-              <div className="absolute left-[19px] md:left-1/2 w-3 h-3 bg-purple-500 dark:bg-purple-500 rounded-full transform -translate-x-1/2 z-10 mt-1" />
-
-              {/* Left side - Company, Position, Date */}
-              <div className="md:w-1/2 md:pr-4 text-left pt-1 w-full">
-                <p className="text-purple-500 dark:text-purple-400 text-sm font-medium mb-1">
-                  {exp.period}
-                </p>
-                <h3 className="text-gray-800 dark:text-white font-bold text-base md:text-lg">
-                  {exp.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{exp.company}</p>
-              </div>
-
-              {/* Right side - Details in a box */}
-              <div className="md:w-1/2 md:pl-4 pt-3 md:pt-1 w-full">
-                <div className="bg-purple-100/80 dark:bg-purple-900/20 border border-purple-300 dark:border-purple-500/30 rounded-lg p-4 w-full">
-                  <ul className="space-y-2">
-                    {exp.description.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-purple-500 dark:text-purple-400 mt-1">•</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+        <SectionHeader eyebrow="Experience" title="Where I've worked" />
+        {/* The connector's -bottom-10 matches space-y-10 so it reaches the next dot. */}
+        <ol className="relative ml-2 space-y-10">
+          {experience.map((role, index) => (
+            <ExperienceItem
+              key={role.id}
+              role={role}
+              current={index === 0}
+              last={index === experience.length - 1}
+            />
           ))}
-        </div>
+        </ol>
       </Container>
     </Section>
   );
