@@ -77,9 +77,9 @@ const projects: IProject[] = [
     media: {
       type: "screenshots",
       images: [
-        { src: "/images/nummz/dashboard_1.jpg", alt: "nummz dashboard screen" },
-        { src: "/images/nummz/budget.jpg", alt: "nummz budget screen" },
-        { src: "/images/nummz/credit_card.jpg", alt: "nummz credit card screen" },
+        { src: "/images/nummz/thumbs/dashboard_1.webp", alt: "nummz dashboard screen" },
+        { src: "/images/nummz/thumbs/budget.webp", alt: "nummz budget screen" },
+        { src: "/images/nummz/thumbs/credit_card.webp", alt: "nummz credit card screen" },
       ],
     },
   },

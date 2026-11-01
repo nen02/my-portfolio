@@ -1,13 +1,19 @@
 import profile from "../data/profile";
 import { surface } from "./ui";
 
+/** Intrinsic size of the portrait file, so the browser reserves its space before it loads. */
+const PHOTO_SIZE = 640;
+
 export function HeroPortrait() {
   return (
     <div className="relative">
       <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-purple-500/30 to-fuchsia-500/10 blur-2xl" />
       <img
-        src="/images/profile.jpg"
+        src={profile.photoUrl}
         alt={`Portrait of ${profile.name}`}
+        width={PHOTO_SIZE}
+        height={PHOTO_SIZE}
+        decoding="async"
         className="relative w-44 h-44 md:w-72 md:h-80 object-cover rounded-full md:rounded-[2rem] ring-1 ring-purple-500/40"
       />
 

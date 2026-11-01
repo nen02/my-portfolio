@@ -8,6 +8,8 @@ type IProfile = {
   greeting: string;
   availability: string;
   email: string;
+  /** Hero portrait. Also preloaded in index.html; keep the two in sync. */
+  photoUrl: string;
   /** Leave empty to hide the location tag. */
   location: string;
   /** Leave empty to hide every résumé button. */
@@ -25,6 +27,7 @@ const profile: IProfile = {
   greeting: "Knock knock. Me. Nen 😄",
   availability: "Open to senior engineering roles",
   email: "riverarenen02@gmail.com",
+  photoUrl: "/images/profile.webp",
   location: "",
   resumeUrl: "/Renen_Rivera_CV.pdf",
   footerNote: "Built with React, Tailwind & too much coffee.",
